@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static i18n thumbnail %}
+
+{% block page %}
+<!-- Portfolio Grid -->
+<section class="bg-light" id="detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center shadow p-3 mb-5 bg-white rounded">
+                <img class="img-fluid" src = "{% static pet.image %}" alt="">
+                {% if pet.is_adopted and pet.show_badge %}
+                    <i class="fas fa-award fa-3x badge-image"></i>
+                {% endif %}
+            </div>
+            <div class="col-md-6 text-center shadow p-3 mb-5 bg-white rounded">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h2 class="section-heading text-uppercase">
+                                {{pet.name}}
+                                {% if pet.gender|lower == 'm' or pet.gender|lower == 'male'%}
+                                <i class="fas fa-mars fa-1x"></i>
+                                {% else %}
+                                <i class="fas fa-venus fa-1x"></i>
+                                {% endif %}
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 key-text">
+                            <h5>Age</h5>
+                        </div>
+                        <div class="col-md-8 value-text text-muted">
+                            {{pet.age_year}} Year Old
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 key-text">
+                            <h5>Breed</h5>
+                        </div>
+                        <div class="col-md-8 value-text text-muted">
+                            {{pet.breed}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 key-text">
+                            <h5>Gender</h5>
+                        </div>
+                        <div class="col-md-8 value-text text-muted">
+                            {{pet.gender}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 key-text">
+                            <h5>Location</h5>
+                        </div>
+                        <div class="col-md-8 value-text text-muted">
+                            {{pet.location}}
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-md-4 key-text">
+                            <h5>Sterilized</h5>
+                        </div>
+                        <div class="col-md-8 value-text text-muted">
+                            {{pet.sterilized}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 key-text">
+                            <h5>House Trained</h5>
+                        </div>
+                        <div class="col-md-8 value-text text-muted">
+                            {{pet.house_trained}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 key-text">
+                            <h5>Characteristics</h5>
+                        </div>
+                        <div class="col-md-8 value-text text-muted">
+                            {{pet.characteristics}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shadow p-3 mb-5 bg-white rounded">
+            <div class="row">
+            <div class="col-md-12 text-left key-text">
+                <h4>Say Hello to {{pet.name}}!</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-left value-text text-muted">
+                <p>{{pet.story}}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+{% endblock page %}

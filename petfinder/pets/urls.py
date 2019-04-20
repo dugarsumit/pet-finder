@@ -5,6 +5,6 @@ from .views import *
 
 urlpatterns = [
     path('hello/', hello, name = 'hello'),
-    url('hi/(\d+)/', hi, name = 'hi'),
-    url('all', list_all_pets, name='list_all_pets')
+    url('all', list_all_pets, name='list_all_pets'),
+    url('pet/detail/(\d+)/', pet_detail, name='pet_detail')
 ]

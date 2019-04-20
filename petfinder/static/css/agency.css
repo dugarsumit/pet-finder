@@ -75,6 +75,17 @@ section h3.section-subheading {
     border-color: #6B8E23;
 }
 
+.btn-secondary{
+    background-color: #fe9235;
+    border-color: #fe9235;
+}
+
+.btn-secondary:active, .btn-secondary:focus, .btn-secondary:hover {
+    background-color: #fe7e35 !important;
+    border-color: #fe7e35 !important;
+    color: white;
+}
+
 .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
     background-color: #51701c !important;
     border-color: #51701c !important;
@@ -86,10 +97,10 @@ section h3.section-subheading {
     box-shadow: 0 0 0 0.2rem rgba(254, 209, 55, 0.5) !important;
 }
 
-::selection {
-    background: #6B8E23;
-    text-shadow: none;
-}
+/*::selection {*/
+    /*background: #6B8E23;*/
+    /*text-shadow: none;*/
+/*}*/
 
 img::selection {
     background: transparent;
@@ -308,6 +319,41 @@ header.masthead .intro-text .intro-heading {
     font-family: 'Droid Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+#portfolio .badge-image {
+    left: 90%;
+    top: 15%;
+    position: absolute;
+    margin-top: -25px;
+    margin-left: -25px;
+    color: #6B8E23;
+}
+
+#detail .badge-image {
+    left: 90%;
+    top: 10%;
+    position: absolute;
+    margin-top: -25px;
+    margin-left: -25px;
+    color: #6B8E23;
+}
+
+.key-text {
+    /*font-size: 20px;*/
+    text-align: left;
+    margin-bottom: 5px;
+    /*font-family: 'Droid Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';*/
+    /*border: 1px solid;*/
+    padding-bottom: 5px;
+    color: #6B8E23;
+}
+
+.value-text {
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
 #portfolio * {
     z-index: 2;
 }
@@ -316,6 +362,10 @@ header.masthead .intro-text .intro-heading {
     #portfolio .portfolio-item {
         margin: 0 0px 30px;
     }
+}
+
+.modal {
+    z-index: 9999;
 }
 
 .portfolio-modal {
@@ -721,4 +771,8 @@ ul.social-buttons li a {
 
 ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons li a:hover {
     background-color: #51701c;
+}
+
+.modal-title {
+    color: #6B8E23;
 }
