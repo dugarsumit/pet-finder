@@ -40,7 +40,7 @@ class Query(models.Model):
     type = models.CharField(max_length = 50, choices = (('G', 'General'), ('A', 'Adoption')), db_index = True,
                             default = 'G')
     email = models.CharField(max_length = 100, null = False)
-    mobile = models.IntegerField(null = False)
+    mobile = models.CharField(max_length = 15, null = False)
     query = models.TextField(null = True)
     location = models.CharField(max_length = 250, null = True, db_index = True)
     name = models.CharField(max_length = 100, null = False)

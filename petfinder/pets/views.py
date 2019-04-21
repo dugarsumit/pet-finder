@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
+from datetime import datetime
 
 
 # Create your views here.
@@ -52,7 +53,6 @@ def get_all_pets():
             'media': pet_media,
             'gender': e.gender
         }
-        print(e.name)
         pets.append(format_pet_details(pet))
     return pets
 
@@ -84,3 +84,24 @@ def pet_detail(request, pet_id):
     }
     template_vars['pet'] = pet
     return render(request, 'pet_detail.html', template_vars)
+
+
+def submit_adoption_form(request):
+    save_adoption_query_in_db(request)
+    return HttpResponse()
+
+
+def save_adoption_query_in_db(request):
+    q = Query(
+        type = 'A',
+        email = request.POST.get('email'),
+        mobile = request.POST.get('phone'),
+        name = request.POST.get('name'),
+        query = request.POST.get('message'),
+        created = datetime.now(),
+        location = request.POST.get('location'),
+        pet_id = Detail.objects.get(id = request.POST.get('pet_id')),
+        pet_name = request.POST.get('pet_name'),
+    )
+    q.save()
+    print('Saved adoption query request from', request.POST.get('email'))

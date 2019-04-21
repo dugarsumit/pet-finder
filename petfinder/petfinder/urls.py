@@ -21,10 +21,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('pets/', include('pets.urls')),
-    url('home/', home, name = 'home'),
-    url('contact', contact, name = 'contact'),
-    url('about', about, name = 'about'),
-    url('', home, name='index'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('pets/', include('pets.urls')),
+                  url('home/', home, name = 'home'),
+                  url('contact/submit', submit_contact_form, name = 'submit_contact_form'),
+                  url('contact', contact, name = 'contact'),
+                  url('about', about, name = 'about'),
+                  url('', home, name = 'index'),
+              ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
