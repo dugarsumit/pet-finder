@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page %}
+<!-- Registration -->
+<section id="register">
+    <div class="container shadow p-3 mb-5 bg-white rounded">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">Pet Registration</h2>
+                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            </div>
+        </div>
+        <form class="text-center" id="registrationForm" name="sendRegistrationForm" role="form" data-toggle="validator">
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Pet's Name*</label>
+                <div class="col-md-4">
+                    <input class="form-control" id="register-pet-name" type="text"
+                           placeholder="Name of the pet"
+                           required="required"
+                           data-validation-required-message="Please enter pet's name.">
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+                <label class="form-label col-md-2 col-form-label">Breed*</label>
+                <div class="col-md-4">
+                    <input class="form-control" id="register-breed" type="text"
+                           placeholder="Breed of the pet"
+                           required="required"
+                           data-validation-required-message="Please enter pet's breed.">
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Location*</label>
+                <div class="col-md-4">
+                    <input class="form-control" id="register-location" type="text"
+                           placeholder="Location of the pet" required="required">
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+                <label class="form-label col-md-2 col-form-label">Gender*</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="register-gender" required="required" type="text">
+                        <option value="">Choose</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option></select>
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Age in Months*</label>
+                <div class="col-md-4">
+                    <input class="form-control" id="register-age-month" type="text"
+                           placeholder="Age in Month" required="required">
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+                <label class="form-label col-md-2 col-form-label">Age in Years*</label>
+                <div class="col-md-4">
+                    <input class="form-control" id="register-age-year" type="text"
+                           placeholder="Age in Year"
+                           required="required">
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-check-label col-md-2">Sterilized</label>
+                <div class="col-md-4 check-input">
+                    <input class="form-check-input" id="register-sterilized" type="checkbox">
+                </div>
+
+                <label class="form-check-label col-md-2">House Trained</label>
+                <div class="col-md-4 check-input">
+                    <input class="form-check-input" id="register-house-trained" type="checkbox">
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-check-label col-md-2">Is Adopted</label>
+                <div class="col-md-4 check-input">
+                    <input class="form-check-input" id="register-adopted" type="checkbox">
+                </div>
+
+                <label class="form-check-label col-md-2">Show Badge</label>
+                <div class="col-md-4 check-input">
+                    <input class="form-check-input" id="register-show-badge" type="checkbox">
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Characteristics*</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" id="register-characteristics" required="required"></textarea>
+                    <small id="characteristics-help" class="form-text text-muted text-left">
+                        Specify pet's traits such as - Curious, Handsome, Playful, Loves Treats, Clever,
+                        Golden eyes, Medium length fur.
+                    </small>
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">About*</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" id="register-story" required="required" rows="5"></textarea>
+                    <small id="story-help" class="form-text text-muted text-left">
+                        Provide a small story about the pet e.g - how it was rescued or a small introduction
+                        about the pet etc.
+                    </small>
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Upload Images*</label>
+                <div class="col-md-8">
+                    <input style="height: 45px;" class="form-control" required="required" type="file" id="multiupload"
+                           name="files[]"
+                           multiple="multiple">
+                    <p class="help-block with-errors text-danger"></p>
+                    <div id="upload-stats"></div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="upload-btn" class="btn btn-primary btm-md">Upload</button>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <h3 class="col-md-12" style="color: #6B8E23">Information of the Updater</h3>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-1 col-form-label">Name*</label>
+                <div class="col-md-3">
+                    <input class="form-control" id="register-added-by" type="text"
+                           placeholder="Name of the person"
+                           required="required">
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+                <label class="form-label col-md-1 col-form-label">Mobile*</label>
+                <div class="col-md-3">
+                    <input class="form-control" id="register-mobile" type="tel"
+                           placeholder="Mobile of the person"
+                           required="required">
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+                <label class="form-label col-md-1 col-form-label">Email*</label>
+                <div class="col-md-3">
+                    <input class="form-control" id="register-email" type="email"
+                           placeholder="Email of the person"
+                           required="required">
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="clearfix"></div>
+                <div class="col-md-12 text-center">
+                    <div id="register-success"></div>
+                    <button id="sendRegistrationFormButton" class="btn btn-primary btn-md" type="button">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock page %}

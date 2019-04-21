@@ -177,3 +177,271 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+
+function uploadajax(ttl, cl) {
+    var fileList = $('#multiupload').prop("files");
+    $('#prog' + cl).removeClass('loading-prep').addClass('upload-image');
+
+    var form_data = "";
+
+    form_data = new FormData();
+    form_data.append("upload_image", fileList[cl]);
+
+    var request = $.ajax({
+        url: "register/upload/",
+        cache: false,
+        contentType: false,
+        processData: false,
+        async: true,
+        data: form_data,
+        type: 'POST',
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken')
+        },
+        xhr: function () {
+            var xhr = $.ajaxSettings.xhr();
+            if (xhr.upload) {
+                xhr.upload.addEventListener('progress', function (event) {
+                    var percent = 0;
+                    if (event.lengthComputable) {
+                        percent = Math.ceil(event.loaded / event.total * 100);
+                    }
+                    $('#prog' + cl).text(' ' + percent + '%')
+
+                }, false);
+            }
+            return xhr;
+        },
+        success: function (res, status) {
+            if (status == 'success') {
+                percent = 0;
+                $('#prog' + cl).text('');
+                $('#prog' + cl).text(' Success');
+                if (cl < ttl) {
+                    uploadajax(ttl, cl + 1);
+                }
+            }
+        },
+        fail: function (res) {
+            alert('Failed');
+        }
+    })
+}
+
+$('#upload-btn').click(function () {
+
+    var fileList = $('#multiupload').prop("files");
+    $('#upload-stats').html('');
+    var i;
+    for (i = 0; i < fileList.length; i++) {
+        $('#upload-stats').append('<p class="upload-page">' + fileList[i].name + '<span class="loading-prep" id="prog' + i + '"></span></p>');
+        if (i == fileList.length - 1) {
+            uploadajax(fileList.length - 1, 0);
+        }
+    }
+
+});
+
+/* Registration Form */
+$('#sendRegistrationFormButton').click(function () {
+    $('#registrationForm').validator('validate');
+    // registrationAjax();
+});
+
+function registrationAjax() {
+    var fileList = $('#multiupload').prop("files");
+    var images_list = [];
+    var i = 0;
+    for (i = 0; i < fileList.length; i++) {
+        images_list.push[fileList[i].name]
+    }
+    var pet_name = $("input#register-pet-name").val();
+    var breed = $("input#register-breed").val();
+    var age_month = $("input#register-age-month").val();
+    var age_year = $("input#register-age-year").val();
+    var location = $("input#register-location").val();
+    var gender = $("input#register-gender").val();
+    var sterilized = $("input#register-sterilized").val();
+    var house_trained = $("input#register-house-trained").val();
+    var is_adopted = $("input#register-adopted").val();
+    var show_badge = $("input#register-show-badge").val();
+    var characteristics = $("input#register-characteristics").val();
+    var story = $("input#register-story").val();
+    var images = images_list;
+    var added_by = $("input#register-added-by").val();
+    var email = $("input#register-email").val();
+    var mobile = $("input#register-mobile").val();
+
+    var firstName = pet_name; // For Success/Failure Message
+    // Check for white space in name for Success/Fail message
+    if (firstName.indexOf(' ') >= 0) {
+        firstName = name.split(' ').slice(0, -1).join(' ');
+    }
+    $this = $("#sendRegistrationFormButton");
+    $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
+    $.ajax({
+        url: "register/submit",
+        type: "POST",
+        data: {
+            pet_name: pet_name,
+            breed: breed,
+            age_month: age_month,
+            age_year: age_year,
+            location: location,
+            gender: gender,
+            sterilized: sterilized,
+            house_trained: house_trained,
+            is_adopted: is_adopted,
+            show_badge: show_badge,
+            characteristics: characteristics,
+            story: story,
+            images: images,
+            added_by: added_by,
+            email: email,
+            mobile: mobile
+        },
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken')
+        },
+        cache: false,
+        success: function () {
+            // Success message
+            $('#register-success').html("<div class='alert alert-success'>");
+            $('#register-success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                .append("</button>");
+            $('#register-success > .alert-success')
+                .append("<strong>Your message has been sent. </strong>");
+            $('#register-success > .alert-success')
+                .append('</div>');
+            //clear all fields
+            $('#registrationForm').trigger("reset");
+        },
+        error: function () {
+            // Fail message
+            $('#register-success').html("<div class='alert alert-danger'>");
+            $('#register-success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                .append("</button>");
+            $('#register-success > .alert-danger').append($("<strong>").text("Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!"));
+            $('#register-success > .alert-danger').append('</div>');
+            //clear all fields
+            $('#registrationForm').trigger("reset");
+        },
+        complete: function () {
+            setTimeout(function () {
+                $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+            }, 1000);
+        }
+    });
+
+}
+// $(function () {
+//
+//     $("#registrationForm input,#registrationForm textarea,#registrationForm select").jqBootstrapValidation({
+//         preventSubmit: true,
+//         submitError: function ($form, event, errors) {
+//             // additional error messages or events
+//         },
+//         submitSuccess: function ($form, event) {
+//             event.preventDefault(); // prevent default submit behaviour
+//             // get values from FORM
+//
+//             var fileList = $('#multiupload').prop("files");
+//             var images_list = [];
+//             var i = 0;
+//             for (i = 0; i < fileList.length; i++) {
+//                 images_list.push[fileList[i].name]
+//             }
+//             var pet_name = $("input#register-pet-name").val();
+//             var breed = $("input#register-breed").val();
+//             var age_month = $("input#register-age-month").val();
+//             var age_year = $("input#register-age-year").val();
+//             var location = $("input#register-location").val();
+//             var gender = $("input#register-gender").val();
+//             var sterilized = $("input#register-sterilized").val();
+//             var house_trained = $("input#register-house-trained").val();
+//             var is_adopted = $("input#register-adopted").val();
+//             var show_badge = $("input#register-show-badge").val();
+//             var characteristics = $("input#register-characteristics").val();
+//             var story = $("input#register-story").val();
+//             var images = images_list;
+//             var added_by = $("input#register-added-by").val();
+//             var email = $("input#register-email").val();
+//             var mobile = $("input#register-mobile").val();
+//
+//             var firstName = pet_name; // For Success/Failure Message
+//             // Check for white space in name for Success/Fail message
+//             if (firstName.indexOf(' ') >= 0) {
+//                 firstName = name.split(' ').slice(0, -1).join(' ');
+//             }
+//             $this = $("#sendRegistrationFormButton");
+//             $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
+//             $.ajax({
+//                 url: "submit",
+//                 type: "POST",
+//                 data: {
+//                     pet_name: pet_name,
+//                     breed: breed,
+//                     age_month: age_month,
+//                     age_year: age_year,
+//                     location: location,
+//                     gender: gender,
+//                     sterilized: sterilized,
+//                     house_trained: house_trained,
+//                     is_adopted: is_adopted,
+//                     show_badge: show_badge,
+//                     characteristics: characteristics,
+//                     story: story,
+//                     images: images,
+//                     added_by: added_by,
+//                     email: email,
+//                     mobile: mobile
+//                 },
+//                 headers: {
+//                     "X-CSRFToken": getCookie('csrftoken')
+//                 },
+//                 cache: false,
+//                 success: function () {
+//                     // Success message
+//                     $('#register-success').html("<div class='alert alert-success'>");
+//                     $('#register-success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+//                         .append("</button>");
+//                     $('#register-success > .alert-success')
+//                         .append("<strong>Your message has been sent. </strong>");
+//                     $('#register-success > .alert-success')
+//                         .append('</div>');
+//                     //clear all fields
+//                     $('#registrationForm').trigger("reset");
+//                 },
+//                 error: function () {
+//                     // Fail message
+//                     $('#register-success').html("<div class='alert alert-danger'>");
+//                     $('#register-success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+//                         .append("</button>");
+//                     $('#register-success > .alert-danger').append($("<strong>").text("Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!"));
+//                     $('#register-success > .alert-danger').append('</div>');
+//                     //clear all fields
+//                     $('#registrationForm').trigger("reset");
+//                 },
+//                 complete: function () {
+//                     setTimeout(function () {
+//                         $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+//                     }, 1000);
+//                 }
+//             });
+//         },
+//         filter: function () {
+//             return $(this).is(":visible");
+//         },
+//     });
+//
+//     $("a[data-toggle=\"tab\"]").click(function (e) {
+//         e.preventDefault();
+//         $(this).tab("show");
+//     });
+// });
+//
+// /*When clicking on Full hide fail/success boxes */
+// $('#register-pet-name').focus(function () {
+//     $('#register-success').html('');
+// });

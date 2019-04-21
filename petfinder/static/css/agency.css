@@ -75,7 +75,7 @@ section h3.section-subheading {
     border-color: #6B8E23;
 }
 
-.btn-secondary{
+.btn-secondary {
     background-color: #fe9235;
     border-color: #fe9235;
 }
@@ -98,8 +98,8 @@ section h3.section-subheading {
 }
 
 /*::selection {*/
-    /*background: #6B8E23;*/
-    /*text-shadow: none;*/
+/*background: #6B8E23;*/
+/*text-shadow: none;*/
 /*}*/
 
 img::selection {
@@ -696,7 +696,34 @@ section#contact .form-group textarea.form-control {
     height: 248px;
 }
 
-section#contact .form-control:focus {
+.alert-border {
+    border: 1px solid red;
+}
+
+.my-special-form div {
+    float: left;
+}
+
+.form-label {
+    text-align: right;
+    color: #6B8E23;
+}
+
+.form-check-label {
+    text-align: right;
+    color: #6B8E23;
+}
+
+.check-input {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.form-check-input {
+    margin-left: 1rem;
+}
+
+.form-control:focus {
     border-color: #6B8E23;
     -webkit-box-shadow: none;
     box-shadow: none;

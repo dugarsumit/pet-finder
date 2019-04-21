@@ -19,8 +19,11 @@ class Detail(models.Model):
     characteristics = models.TextField(null = True,
                                        help_text = 'Specify pet traits such as - Curious, Handsome, Playful, Loves Treats, Clever, Gold eyes, Medium length fur',
                                        db_index = True)
-    name = models.CharField(max_length = 100)
+    name = models.CharField(max_length = 100, null = False)
     gender = models.CharField(max_length = 10, choices = (('M', 'Male'), ('F', 'Female')), default = 'M')
+    email = models.CharField(max_length = 100, null = False)
+    mobile = models.CharField(max_length = 15, null = False)
+    added_by = models.CharField(max_length = 100, null = False)
 
 
 class Media(models.Model):
