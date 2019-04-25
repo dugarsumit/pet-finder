@@ -8,6 +8,9 @@ import os
 
 # Create your views here.
 
+# UPLOAD_DIR = '/home/sumit/Documents/repo/pet-finder'
+UPLOAD_DIR = '/home/dugarsumit/pet-finder'
+
 def hello(request):
     text = """<h1>welcome to the petfinder app !</h1>"""
     return HttpResponse(text)
@@ -32,7 +35,7 @@ def submit_adoption_form(request):
 def upload_files(request):
     print('Inside upload method....')
     upload_file = request.FILES['upload_image']
-    with open(os.path.join('/home/sumit/Documents/repo/pet-finder', upload_file.name), 'wb+') as destination:
+    with open(os.path.join(UPLOAD_DIR, upload_file.name), 'wb+') as destination:
         for chunk in upload_file.chunks():
             destination.write(chunk)
     return HttpResponse()
