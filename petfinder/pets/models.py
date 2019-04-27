@@ -24,6 +24,7 @@ class Detail(models.Model):
     email = models.CharField(max_length = 100, null = False)
     mobile = models.CharField(max_length = 15, null = False)
     added_by = models.CharField(max_length = 100, null = False)
+    peepalfarm_approved = models.BooleanField(default = False)
 
 
 class Media(models.Model):

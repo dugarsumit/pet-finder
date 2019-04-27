@@ -4,12 +4,12 @@ from .models import *
 from datetime import datetime
 from django import forms
 import os
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-# UPLOAD_DIR = '/home/sumit/Documents/repo/pet-finder'
-UPLOAD_DIR = '/home/dugarsumit/pet-finder'
+UPLOAD_DIR = '/home/sumit/Documents/repo/pet-finder'
+# UPLOAD_DIR = '/home/dugarsumit/pet-finder'
 
 def hello(request):
     text = """<h1>welcome to the petfinder app !</h1>"""
@@ -23,6 +23,7 @@ def list_all_pets(request):
     return render(request, 'pets_list.html', template_vars)
 
 
+@login_required
 def registration_form(request):
     return render(request, 'registration_form.html')
 

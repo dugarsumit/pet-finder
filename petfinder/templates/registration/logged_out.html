@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block page %}
+<section id="logout">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2 class="section-heading text-uppercase">Logged out!</h2>
+                <a href="{% url 'login'%}">Click here to login again.</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock page %}
