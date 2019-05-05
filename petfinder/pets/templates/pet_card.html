@@ -1,19 +1,19 @@
 {% load i18n static thumbnail %}
-<div class="col-md-3 col-sm-6">
+<div class="col-md-4 col-sm-6">
     <div class="portfolio-item shadow p-3 mb-5 bg-white rounded">
         <a class="portfolio-link" data-toggle="modal" href="#detailmodal">
-            <img class="img-fluid" src = "{% static pet.image %}" alt="">
+            <img class="img-fluid" src="{% static pet.image %}" alt="">
             {% if pet.is_adopted and pet.show_badge %}
-                <i class="fas fa-award fa-3x badge-image"></i>
+            <i class="fas fa-award fa-3x badge-image"></i>
             {% endif %}
         </a>
         <div class="portfolio-caption">
             <h4>
                 {{pet.name}}
                 {% if pet.gender|lower == 'm' or pet.gender|lower == 'male'%}
-                    <i class="fas fa-mars fa-1x"></i>
+                <i class="fas fa-mars fa-1x"></i>
                 {% else %}
-                    <i class="fas fa-venus fa-1x"></i>
+                <i class="fas fa-venus fa-1x"></i>
                 {% endif %}
             </h4>
             <p class="text-secondary">
@@ -21,7 +21,7 @@
                 {{pet.breed}}
                 <br>
                 <i class="fas fa-map-marker-alt"></i>
-                {{pet.location}}
+                {{pet.city}}, {{pet.country}}
                 <br>
                 <i class="fas fa-birthday-cake"></i>
                 {{pet.age_year}} Year Old
@@ -30,9 +30,9 @@
         <div class="portfolio-btn">
             {% if pet.is_adopted %}
             {% else %}
-                <a class="btn btn-primary" data-toggle="modal" href="#adoptmodal" role="button">Adopt</a>
+            <a class="btn btn-primary" data-toggle="modal" href="#adoptmodal" role="button">Adopt</a>
             {% endif %}
-            <a class="btn btn-secondary" data-toggle="modal" href="#storymodal" role="button">Hi</a>
+            <a class="btn btn-secondary" data-toggle="modal" href="#storymodal-{{pet.id}}" role="button">Hi</a>
             <a class="btn btn-info" data-toggle="modal" href="#detailmodal" role="button">Details</a>
         </div>
     </div>

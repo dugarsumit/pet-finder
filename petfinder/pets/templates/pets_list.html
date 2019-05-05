@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n thumbnail %}
+{% load static i18n thumbnail countries %}
 
 {% block page %}
 <!-- Portfolio Grid -->
@@ -12,165 +12,281 @@
             </div>
         </div>
         <div class="row">
-            {% if pets %}
-            {% for pet in pets %}
-                {% include 'pet_card.html' with pet=pet only %}
-
-            <!-- Story Modal -->
-            <div style="z-index: 9999" class="modal fade" id="storymodal" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalCenterTitle"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="storyModalLongTitle">Hi! I am {{pet.name}}!</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body text-muted" style="padding: 25px">
-                            {{pet.story}}
+            <div class="col-md-3 shadow p-3 mb-5 bg-white rounded">
+                <form class="text-center" id="filterForm" name="filterForm" role="form">
+                    <div class="row form-group">
+                        <label class="form-check-label col-md-10 text-left">Peepalfarm Approved</label>
+                        <div class="col-md-2 check-input">
+                            <input class="form-check-input" id="filter-peepalfarm-approved" type="checkbox">
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Adopt Modal -->
-            <div style="z-index: 9999" class="modal fade" id="adoptmodal" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalCenterTitle"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="adoptModalTitle">ADOPTION FORM</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            {% include 'adoption_form.html' with pet=pet only %}
+                    <div class="row form-group">
+                        <label class="form-check-label col-md-10 text-left">Hosue Trained</label>
+                        <div class="col-md-2 check-input">
+                            <input class="form-check-input" id="filter-house-trained" type="checkbox">
                         </div>
                     </div>
-                </div>
-            </div>
-
-
-            <!-- Detail Modal -->
-            <div style="z-index: 9999" class="modal fade" id="detailmodal" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalCenterTitle"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title " id="detailModalTitle">
-                                {{pet.name}}
-                                {% if pet.gender|lower == 'm' or pet.gender|lower == 'male'%}
-                                <i class="fas fa-mars fa-1x"></i>
+                    <div class="row form-group">
+                        <label class="form-check-label col-md-10 text-left">Sterilized</label>
+                        <div class="col-md-2 check-input">
+                            <input class="form-check-input" id="filter-sterilized" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="form-label col-md-4 col-form-label text-left">Added By</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="filter-added-by" type="text">
+                                <option value="">Choose</option>
+                                {% for user in users %}
+                                <option value="{{ user.id }}">{{ user.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="form-label col-md-4 col-form-label text-left">Gender</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="filter-gender" type="text">
+                                {% if filters.pa == "true" %}
                                 {% else %}
-                                <i class="fas fa-venus fa-1x"></i>
                                 {% endif %}
-                            </h2>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                                <option value="">Choose</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="form-label col-md-4 col-form-label text-left">Age</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="filter-age" type="text">
+                                {% if filters.pa == "true" %}
+                                {% else %}
+                                {% endif %}
+                                <option value="">Choose</option>
+                                <option value="0-1">0 to 1 years</option>
+                                <option value="1-2">1 to 2 years</option>
+                                <option value="2-4">2 to 4 years</option>
+                                <option value="4-6">4 to 6 years</option>
+                                <option value="6-10">6 to 10 years</option>
+                                <option value="10-15">10 to 15 years</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="form-label col-md-4 col-form-label text-left">Breed</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="filter-breed" type="text">
+                                {% if filters.pa == "true" %}
+                                {% else %}
+                                {% endif %}
+                                <option value="">Choose</option>
+                                {% for breed in breeds %}
+                                <option value="{{ breed }}">{{ breed }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="form-label col-md-4 col-form-label text-left">Country</label>
+                        <div class="col-md-8">
+                            {% get_countries as countries %}
+                            <select class="form-control" id="filter-country" type="text">
+                                {% if filters.pa == "true" %}
+                                {% else %}
+                                {% endif %}
+                                <option value="">Choose</option>
+                                {% for country in countries %}
+                                <option value="{{ country.code }}">{{ country.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <!--<div class="row form-group">-->
+                    <!--<label class="form-label col-md-4 col-form-label text-left">State</label>-->
+                    <!--<div class="col-md-8">-->
+                    <!--<select class="form-control" id="filter-state" type="text">-->
+                    <!--<option value="">Choose</option>-->
+                    <!--<option value="M">Male</option>-->
+                    <!--<option value="F">Female</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="row form-group">
+                        <div class="col-md-12 text-center">
+                            <button id="filterButton" class="btn btn-primary btn-md" type="button">
+                                Apply Filter
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-6 text-center shadow p-3 mb-5 bg-white rounded">
-                                        <img class="img-fluid" src="{% static pet.image %}" alt="">
-                                        {% if pet.is_adopted and pet.show_badge %}
-                                        <i class="fas fa-award fa-3x badge-image"></i>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-9">
+                <div class="row">
+                    {% if pets %}
+                    {% for pet in pets %}
+                    {% include 'pet_card.html' with pet=pet only %}
+
+                    <!-- Story Modal -->
+                    <div style="z-index: 1050" class="modal fade" id="storymodal-{{pet.id}}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="storyModalLongTitle">Hi! I am {{pet.name}}!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-muted" style="padding: 25px">
+                                    {{pet.story}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Adopt Modal -->
+                    <div style="z-index: 9999" class="modal fade" id="adoptmodal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="adoptModalTitle">ADOPTION FORM</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    {% include 'adoption_form.html' with pet=pet only %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Detail Modal -->
+                    <div style="z-index: 9999" class="modal fade" id="detailmodal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title " id="detailModalTitle">
+                                        {{pet.name}}
+                                        {% if pet.gender|lower == 'm' or pet.gender|lower == 'male'%}
+                                        <i class="fas fa-mars fa-1x"></i>
+                                        {% else %}
+                                        <i class="fas fa-venus fa-1x"></i>
                                         {% endif %}
+                                    </h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-6 text-center shadow p-3 mb-5 bg-white rounded">
+                                                <img class="img-fluid" src="{% static pet.image %}" alt="">
+                                                {% if pet.is_adopted and pet.show_badge %}
+                                                <i class="fas fa-award fa-3x badge-image"></i>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-6 shadow p-3 mb-5 bg-white rounded">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-4 key-text">
+                                                            <h5>Age</h5>
+                                                        </div>
+                                                        <div class="col-md-8 value-text text-muted">
+                                                            {{pet.age_year}} Year Old
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 key-text">
+                                                            <h5>Breed</h5>
+                                                        </div>
+                                                        <div class="col-md-8 value-text text-muted">
+                                                            {{pet.breed}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 key-text">
+                                                            <h5>Gender</h5>
+                                                        </div>
+                                                        <div class="col-md-8 value-text text-muted">
+                                                            {{pet.gender}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 key-text">
+                                                            <h5>Location</h5>
+                                                        </div>
+                                                        <div class="col-md-8 value-text text-muted">
+                                                            {{pet.city}}, {{pet.country}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 key-text">
+                                                            <h5>Sterilized</h5>
+                                                        </div>
+                                                        <div class="col-md-8 value-text text-muted">
+                                                            {{pet.sterilized}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 key-text">
+                                                            <h5>House Trained</h5>
+                                                        </div>
+                                                        <div class="col-md-8 value-text text-muted">
+                                                            {{pet.house_trained}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 key-text">
+                                                            <h5>Characteristics</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 value-text text-muted">
+                                                            {{pet.characteristics}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 shadow p-3 mb-5 bg-white rounded">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-md-4 key-text">
-                                                    <h5>Age</h5>
-                                                </div>
-                                                <div class="col-md-8 value-text text-muted">
-                                                    {{pet.age_year}} Year Old
-                                                </div>
+                                    <div class="shadow p-3 mb-5 bg-white rounded">
+                                        <div class="row">
+                                            <div class="col-md-12 text-left key-text">
+                                                <h4>Say Hello to {{pet.name}}!</h4>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-4 key-text">
-                                                    <h5>Breed</h5>
-                                                </div>
-                                                <div class="col-md-8 value-text text-muted">
-                                                    {{pet.breed}}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4 key-text">
-                                                    <h5>Gender</h5>
-                                                </div>
-                                                <div class="col-md-8 value-text text-muted">
-                                                    {{pet.gender}}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4 key-text">
-                                                    <h5>Location</h5>
-                                                </div>
-                                                <div class="col-md-8 value-text text-muted">
-                                                    {{pet.location}}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4 key-text">
-                                                    <h5>Sterilized</h5>
-                                                </div>
-                                                <div class="col-md-8 value-text text-muted">
-                                                    {{pet.sterilized}}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4 key-text">
-                                                    <h5>House Trained</h5>
-                                                </div>
-                                                <div class="col-md-8 value-text text-muted">
-                                                    {{pet.house_trained}}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4 key-text">
-                                                    <h5>Characteristics</h5>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12 value-text text-muted">
-                                                    {{pet.characteristics}}
-                                                </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 text-left value-text text-muted">
+                                                <p>{{pet.story}}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="shadow p-3 mb-5 bg-white rounded">
-                                <div class="row">
-                                    <div class="col-md-12 text-left key-text">
-                                        <h4>Say Hello to {{pet.name}}!</h4>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 text-left value-text text-muted">
-                                        <p>{{pet.story}}</p>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
+
+                    {% endfor %}
+                    {% else %}
+                    <div class="col-md-12">
+                        <h4>{% trans 'No friends in this category yet :)' %}</h4>
+                    </div>
+                    {% endif %}
+
                 </div>
             </div>
-
-            {% endfor %}
-            {% else %}
-            <div class="col-md-12">
-                <h4>{% trans 'No friends in this category yet :)' %}</h4>
-            </div>
-            {% endif %}
         </div>
+    </div>
     </div>
 </section>
 {% endblock page %}

@@ -354,9 +354,13 @@ header.masthead .intro-text .intro-heading {
     padding-bottom: 5px;
 }
 
-#portfolio * {
-    z-index: 2;
-}
+/*#portfolio * {*/
+    /*z-index: 2;*/
+/*}*/
+
+/*#storymodal-1 * {*/
+    /*z-index: 1050;*/
+/*}*/
 
 @media (min-width: 767px) {
     #portfolio .portfolio-item {
@@ -364,9 +368,6 @@ header.masthead .intro-text .intro-heading {
     }
 }
 
-.modal {
-    z-index: 9999;
-}
 
 .portfolio-modal {
     padding-right: 0px !important;
@@ -802,4 +803,9 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
 
 .modal-title {
     color: #6B8E23;
+}
+
+.portfolio-item:hover {
+    /*border: 1px solid #fed136;*/
+    border: 1px solid #6B8E23;
 }

@@ -249,6 +249,54 @@ $('#sendRegistrationFormButton').click(function () {
     // registrationAjax();
 });
 
+$(document).ready(function () {
+    if (window.location.pathname == '/pets/all') {
+        populate_filters()
+    }
+});
+
+function populate_filters() {
+    if (getUrlParameter('pa') == 'true') {
+        $('#filter-peepalfarm-approved').prop("checked", true);
+    }
+    if (getUrlParameter('ht') == 'true') {
+        $('#filter-house-trained').prop("checked", true);
+    }
+    if (getUrlParameter('s') == 'true') {
+        $('#filter-sterilized').prop("checked", true);
+    }
+    if (getUrlParameter('ab')) {
+        $('#filter-added-by').prop("value", getUrlParameter('ab'));
+    }
+    if (getUrlParameter('g')) {
+        $('#filter-gender').prop("value", getUrlParameter('g'));
+    }
+    if (getUrlParameter('a')) {
+        $('#filter-age').prop("value", getUrlParameter('a'));
+    }
+    if (getUrlParameter('b')) {
+        $('#filter-breed').prop("value", getUrlParameter('b'));
+    }
+    if (getUrlParameter('c')) {
+        $('#filter-country').prop("value", getUrlParameter('c'));
+    }
+}
+
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+}
+
 function registrationAjax() {
     var fileList = $('#multiupload').prop("files");
     var images_list = [];
@@ -333,8 +381,78 @@ function registrationAjax() {
             }, 1000);
         }
     });
+}
+
+
+/* Filter button */
+$('#filterButton').click(function () {
+    url = compute_filter_url()
+    window.location.assign(url);
+    // filterAjax();
+});
+
+function compute_filter_url() {
+    var url = "all?"
+    var pa = $("#filter-peepalfarm-approved").prop("checked");
+    url = url + "pa=" + pa + "&"
+    var ht = $("#filter-house-trained").prop("checked");
+    url = url + "ht=" + ht + "&"
+    var s = $("#filter-sterilized").prop("checked");
+    url = url + "s=" + s + "&"
+    var ab = $("#filter-added-by").val();
+    url = url + "ab=" + ab + "&"
+    var g = $("#filter-gender").val();
+    url = url + "g=" + g + "&"
+    var a = $("#filter-age").val();
+    url = url + "a=" + a + "&"
+    var b = $("#filter-breed").val();
+    url = url + "b=" + b + "&"
+    var c = $("#filter-country").val();
+    url = url + "c=" + c
+    return url
+}
+
+function filterAjax() {
+    var pa = $("#filter-peepalfarm-approved").val();
+    var ht = $("#filter-house-trained").val();
+    var s = $("#filter-sterilized").val();
+    var ab = $("#filter-added-by").val();
+    var g = $("#filter-gender").val();
+    var a = $("#filter-age").val();
+    var b = $("#filter-breed").val();
+    var c = $("#filter-country").val();
+
+    $this = $("#filterButton");
+    $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
+    $.ajax({
+        url: "pets/all",
+        type: "GET",
+        data: {
+            pa: pa,
+            ht: ht,
+            s: s,
+            ab: ab,
+            g: g,
+            a: a,
+            b: b,
+            c: c
+        },
+        cache: false,
+        success: function () {
+            // Success message
+        },
+        error: function () {
+            // Fail message
+        },
+        complete: function () {
+            setTimeout(function () {
+                $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+            }, 1000);
+        }
+    });
 
 }
+
 // $(function () {
 //
 //     $("#registrationForm input,#registrationForm textarea,#registrationForm select").jqBootstrapValidation({

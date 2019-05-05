@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static countries %}
 
 {% block page %}
 <!-- Registration -->
-<section id="register">
+<section class="bg-light" id="register">
     <div class="container shadow p-3 mb-5 bg-white rounded">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -23,41 +23,84 @@
                 </div>
                 <label class="form-label col-md-2 col-form-label">Breed*</label>
                 <div class="col-md-4">
-                    <input class="form-control" id="register-breed" type="text"
-                           placeholder="Breed of the pet"
-                           required="required"
-                           data-validation-required-message="Please enter pet's breed.">
+                    <select class="form-control" id="register-breed" type="text" required="required">
+                        <option value="">Choose</option>
+                        {% for breed in breeds %}
+                        <option value="{{ breed }}">{{ breed }}</option>
+                        {% endfor %}
+                    </select>
                     <p class="help-block with-errors text-danger"></p>
                 </div>
             </div>
             <div class="row form-group">
-                <label class="form-label col-md-2 col-form-label">Location*</label>
+                <label class="form-label col-md-2 col-form-label">Country*</label>
                 <div class="col-md-4">
-                    <input class="form-control" id="register-location" type="text"
-                           placeholder="Location of the pet" required="required">
+                    {% get_countries as countries %}
+                    <select class="form-control" id="register-country" type="text">
+                        <option value="">Choose</option>
+                        {% for country in countries %}
+                        <option value="{{ country.code }}">{{ country.name }}</option>
+                        {% endfor %}
+                    </select>
                     <p class="help-block with-errors text-danger"></p>
                 </div>
-                <label class="form-label col-md-2 col-form-label">Gender*</label>
+                <label class="form-label col-md-2 col-form-label">City*</label>
                 <div class="col-md-4">
-                    <select class="form-control" id="register-gender" required="required" type="text">
-                        <option value="">Choose</option>
-                        <option value="M">Male</option>
-                        <option value="F">Female</option></select>
+                    <input class="form-control" id="register-city" type="text"
+                           placeholder="City" required="required">
                     <p class="help-block with-errors text-danger"></p>
                 </div>
             </div>
             <div class="row form-group">
                 <label class="form-label col-md-2 col-form-label">Age in Months*</label>
                 <div class="col-md-4">
-                    <input class="form-control" id="register-age-month" type="text"
-                           placeholder="Age in Month" required="required">
+                    <select class="form-control" id="register-age-month" type="text" required="required">
+                        <option value=0>Choose</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                        <option value=11>11</option>
+                    </select>
                     <p class="help-block with-errors text-danger"></p>
                 </div>
                 <label class="form-label col-md-2 col-form-label">Age in Years*</label>
                 <div class="col-md-4">
-                    <input class="form-control" id="register-age-year" type="text"
-                           placeholder="Age in Year"
-                           required="required">
+                    <select class="form-control" id="register-age-year" type="text" required="required">
+                        <option value=0>Choose</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                        <option value=11>11</option>
+                        <option value=12>12</option>
+                        <option value=13>13</option>
+                        <option value=14>14</option>
+                        <option value=15>15</option>
+                    </select>
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Gender*</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="register-gender" required="required" type="text">
+                        <option value="">Choose</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
                     <p class="help-block with-errors text-danger"></p>
                 </div>
             </div>
@@ -127,7 +170,7 @@
                 <div class="col-md-3">
                     <input class="form-control" id="register-added-by" type="text"
                            placeholder="Name of the person"
-                           required="required">
+                           required="required" value="{{ username }}" readonly="readonly">
                     <p class="help-block with-errors text-danger"></p>
                 </div>
                 <label class="form-label col-md-1 col-form-label">Mobile*</label>

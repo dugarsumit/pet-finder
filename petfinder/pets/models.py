@@ -1,4 +1,6 @@
 from django.db import models
+from django_countries.fields import CountryField
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -10,7 +12,10 @@ class Detail(models.Model):
     breed = models.CharField(max_length = 500, null = True, db_index = True)
     created = models.DateTimeField()
     updated = models.DateTimeField(auto_now = True, db_index = True)
-    location = models.CharField(max_length = 250, null = True, db_index = True)
+    # location = models.CharField(max_length = 250, null = True, db_index = True)
+    city = models.CharField(max_length = 250, null = True, db_index = True)
+    # state = models.CharField(max_length = 250, null = True, db_index = True)
+    country = CountryField(null = True)
     story = models.TextField(null = True, help_text = 'Write a story about the pet')
     sterilized = models.BooleanField(default = False, db_index = True)
     house_trained = models.BooleanField(default = False, db_index = True)
@@ -23,7 +28,7 @@ class Detail(models.Model):
     gender = models.CharField(max_length = 10, choices = (('M', 'Male'), ('F', 'Female')), default = 'M')
     email = models.CharField(max_length = 100, null = False)
     mobile = models.CharField(max_length = 15, null = False)
-    added_by = models.CharField(max_length = 100, null = False)
+    added_by = models.ForeignKey(User, on_delete = models.CASCADE)
     peepalfarm_approved = models.BooleanField(default = False)
 
 

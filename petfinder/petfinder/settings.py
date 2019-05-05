@@ -29,6 +29,9 @@ ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = '/pets/all'
 
+ROOT_PROJ_DIR = '/home/sumit/Documents/repo/pet-finder'
+# ROOT_PROJ_DIR = '/home/dugarsumit/pet-finder'
+
 
 # Application definition
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_countries',
     'pets',
     'compressor',
     'easy_thumbnails',
