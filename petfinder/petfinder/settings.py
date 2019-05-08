@@ -25,7 +25,7 @@ SECRET_KEY = '!c@f(%twnxw=arck_p-26x6al6lla%xk9sc9m1ql&5l1np))ty'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dugarsumit.pythonanywhere.com','localhost']
 
 LOGIN_REDIRECT_URL = '/pets/all'
 
