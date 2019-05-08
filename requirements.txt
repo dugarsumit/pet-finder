@@ -1,7 +1,12 @@
+data-access==0.1
+dbservice==0.6
 Django==2.2
 django-appconf==1.0.3
 django-compressor==2.2
+django-countries==5.3.3
+django-dotenv==1.4.2
 easy-thumbnails==2.6
+numpy==1.16.3
 Pillow==6.0.0
 pkg-resources==0.0.0
 psycopg2==2.8.2
