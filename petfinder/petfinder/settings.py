@@ -32,6 +32,11 @@ LOGIN_REDIRECT_URL = '/pets/all'
 ROOT_PROJ_DIR = '/home/sumit/Documents/repo/pet-finder'
 # ROOT_PROJ_DIR = '/home/dugarsumit/pet-finder'
 
+PET_PROFILE_IMG_DIR = '/img/pet-profile'
+
+UPLOAD_DIR = ROOT_PROJ_DIR + '/petfinder/static' + PET_PROFILE_IMG_DIR
+
+
 
 # Application definition
 

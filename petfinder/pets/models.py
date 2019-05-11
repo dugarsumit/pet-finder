@@ -30,11 +30,12 @@ class Detail(models.Model):
     mobile = models.CharField(max_length = 15, null = False)
     added_by = models.ForeignKey(User, on_delete = models.CASCADE)
     peepalfarm_approved = models.BooleanField(default = False)
+    enabled = models.BooleanField(default = False)
 
 
 class Media(models.Model):
     id = models.AutoField(primary_key = True, db_index = True)
-    pet_id = models.ForeignKey(Detail, on_delete = models.CASCADE)
+    pet = models.ForeignKey(Detail, on_delete = models.CASCADE)
     type = models.CharField(max_length = 50, choices = (('image', 'image'), ('video', 'video')))
     is_thumbnail = models.BooleanField(default = False)
     path = models.CharField(max_length = 250)
@@ -53,6 +54,6 @@ class Query(models.Model):
     query = models.TextField(null = True)
     location = models.CharField(max_length = 250, null = True, db_index = True)
     name = models.CharField(max_length = 100, null = False)
-    pet_id = models.ForeignKey(Detail, on_delete = models.SET_NULL, null = True)
+    pet = models.ForeignKey(Detail, on_delete = models.SET_NULL, null = True)
     pet_name = models.CharField(max_length = 100, null = True)
     is_adopted = models.BooleanField(default = False)

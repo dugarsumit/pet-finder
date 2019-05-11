@@ -52,14 +52,22 @@ def submit_adoption_form(request):
 def upload_files(request):
     print('Inside upload method....')
     upload_file = request.FILES['upload_image']
-    with open(os.path.join(settings.ROOT_PROJ_DIR, upload_file.name), 'wb+') as destination:
+    with open(os.path.join(settings.UPLOAD_DIR, upload_file.name), 'wb+') as destination:
         for chunk in upload_file.chunks():
             destination.write(chunk)
+    pet_id = request.POST['pet_id']
+    file_path = os.path.join(settings.PET_PROFILE_IMG_DIR, upload_file.name)
+    print(pet_id)
+    print(file_path)
+    save_media_in_db(pet_id = pet_id, file_path = file_path)
     return HttpResponse()
 
 
 def submit_registration_form(request):
-    return HttpResponse()
+    print(request.POST)
+    pet_id = save_registration_details_in_db(request)
+    response_data = {'pet_id': pet_id}
+    return HttpResponse(json.dumps(response_data), content_type = "application/json")
 
 
 def pet_detail(request, pet_id):
@@ -137,6 +145,8 @@ def get_filtered_pets(filter):
     query = get_filtered_query(filter = filter)
     for e in query:
         pet_media = get_pet_media(e.id)
+        print(e.id)
+        print(pet_media)
         pet = {
             'id': e.id,
             'name': e.name,
@@ -210,11 +220,56 @@ def save_adoption_query_in_db(request):
         query = request.POST.get('message'),
         created = datetime.now(),
         location = request.POST.get('location'),
-        pet_id = Detail.objects.get(id = request.POST.get('pet_id')),
+        pet = Detail.objects.get(id = request.POST.get('pet_id')),
         pet_name = request.POST.get('pet_name'),
     )
     q.save()
     print('Saved adoption query request from', request.POST.get('email'))
+
+
+def save_registration_details_in_db(request):
+    q = Detail(
+        name = request.POST.get('pet_name'),
+        breed = request.POST.get('breed'),
+        country = request.POST.get('country'),
+        city = request.POST.get('city'),
+        age_month = request.POST.get('age_month'),
+        age_year = request.POST.get('age_year'),
+        gender = request.POST.get('gender'),
+        sterilized = bool_convert(request.POST.get('sterilized')),
+        house_trained = bool_convert(request.POST.get('house_trained')),
+        is_adopted = bool_convert(request.POST.get('is_adopted')),
+        show_badge = bool_convert(request.POST.get('show_badge')),
+        characteristics = request.POST.get('characteristics'),
+        story = request.POST.get('story'),
+        added_by = get_user_by_id(request.POST.get('added_by')),
+        email = request.POST.get('email'),
+        mobile = request.POST.get('mobile'),
+        created = datetime.now()
+    )
+    q.save()
+    print('Saved registration request from', request.POST.get('email'))
+    return q.id
+
+
+def save_media_in_db(pet_id, file_path, media_type = 'image'):
+    q = Media(
+        pet = get_pet_detail_by_pet_id(pet_id),
+        type = media_type,
+        is_thumbnail = False,
+        path = file_path,
+        created = datetime.now()
+    )
+    q.save()
+    print('Saved media for pet', pet_id)
+
+
+def get_user_by_id(user_id):
+    return User.objects.get(id = user_id)
+
+
+def get_pet_detail_by_pet_id(pet_id):
+    return Detail.objects.get(id = pet_id)
 
 
 def get_users():
@@ -222,52 +277,6 @@ def get_users():
     for e in User.objects.all():
         users.append(e)
     return users
-
-
-# def get_filters(f):
-#     filters = {
-#         'pa': f.get('pa', None),
-#         'ht': f.get('ht', None),
-#         's': f.get('s', None),
-#         'ab': get_username_by_id(f.get('ab', None)),
-#         'g': get_gender_filter(f.get('g', None)),
-#         'a': get_age_filter(f.get('a', None)),
-#         'b': f.get('b', None),
-#         'c': f.get('c', None)
-#     }
-#     return filters
-#
-#
-# def get_username_by_id(id):
-#     if id:
-#         user = User.objects.get(id = id)
-#         if user:
-#             return user.username
-#     return None
-#
-#
-# def get_age_filter(age_range):
-#     age = {
-#         '0-1': '0 to 1 years',
-#         '1-2': '1 to 2 years',
-#         '2-4': '2 to 4 years',
-#         '4-6': '4 to 6 years',
-#         '6-10': '6 to 10 years',
-#         '10-15': '10 to 15 years',
-#     }
-#     return age.get(age_range, None)
-#
-#
-# def get_gender_filter(gender):
-#     g = {
-#         'M': 'Male',
-#         'F': 'Female'
-#     }
-#     return g.get(gender, None)
-#
-#
-# def get_states():
-#     pass
 
 
 def get_dog_breeds():

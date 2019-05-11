@@ -809,3 +809,7 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
     /*border: 1px solid #fed136;*/
     border: 1px solid #6B8E23;
 }
+
+.upload-block {
+    display: none;
+}
