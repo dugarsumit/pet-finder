@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from .models import *
 from datetime import datetime
 from django import forms
@@ -52,15 +52,26 @@ def submit_adoption_form(request):
 def upload_files(request):
     print('Inside upload method....')
     upload_file = request.FILES['upload_image']
-    with open(os.path.join(settings.UPLOAD_DIR, upload_file.name), 'wb+') as destination:
-        for chunk in upload_file.chunks():
-            destination.write(chunk)
-    pet_id = request.POST['pet_id']
-    file_path = os.path.join(settings.PET_PROFILE_IMG_DIR, upload_file.name)
-    print(pet_id)
-    print(file_path)
-    save_media_in_db(pet_id = pet_id, file_path = file_path)
+    if validate_uploaded_file(upload_file):
+        with open(os.path.join(settings.UPLOAD_DIR, upload_file.name), 'wb+') as destination:
+            for chunk in upload_file.chunks():
+                destination.write(chunk)
+        pet_id = request.POST['pet_id']
+        file_path = os.path.join(settings.PET_PROFILE_IMG_DIR, upload_file.name)
+        save_media_in_db(pet_id = pet_id, file_path = file_path)
+    else:
+        print('Invalid file', upload_file.name)
+        return HttpResponseBadRequest()
     return HttpResponse()
+
+
+def validate_uploaded_file(upload_file):
+    extension = upload_file.name.split('.')[-1].lower()
+    if extension not in settings.ALLOWED_EXTENSION:
+        return False
+    if ((upload_file.size/1024)/1024) > settings.MAX_UPLOAD_SIZE:
+        return False
+    return True
 
 
 def submit_registration_form(request):

@@ -36,7 +36,9 @@ PET_PROFILE_IMG_DIR = '/img/pet-profile'
 
 UPLOAD_DIR = ROOT_PROJ_DIR + '/petfinder/static' + PET_PROFILE_IMG_DIR
 
+ALLOWED_EXTENSION = ['jpg', 'jpeg', 'png']
 
+MAX_UPLOAD_SIZE = 1
 
 # Application definition
 

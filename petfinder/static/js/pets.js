@@ -224,8 +224,11 @@ function uploadajax(ttl, cl) {
                 }
             }
         },
-        fail: function (res) {
-            alert('Failed');
+        error: function (res) {
+            percent = 0;
+            $('#prog' + cl).text('');
+            $('#prog' + cl).text(' Failed')
+            alert('Failed - Invalid file');
         }
     })
 }
