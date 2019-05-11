@@ -115,7 +115,7 @@ def get_pet_media(pet_id):
 
 def get_all_peepalfarm_approved_pets():
     pets = []
-    query = Detail.objects.filter(peepalfarm_approved = True)
+    query = Detail.objects.filter(peepalfarm_approved = True, enabled = True)
     for e in query:
         pet_media = get_pet_media(e.id)
         pet = {
@@ -171,6 +171,7 @@ def get_filtered_pets(filter):
 
 def get_filtered_query(filter):
     query = Detail.objects.filter()
+    query = query.filter(enabled = True)
     peepalfarm_approved = filter.get('pa', None)
     if peepalfarm_approved is not None:
         query = query.filter(peepalfarm_approved = bool_convert(peepalfarm_approved))
