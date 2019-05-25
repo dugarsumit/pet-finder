@@ -259,11 +259,11 @@ $('#sendRegistrationFormButton').click(function () {
 
 function registrationAjax() {
     var pet_name = $("input#register-pet-name").val();
+    var species = $("select#register-species").val();
     var breed = $("select#register-breed").val();
     var country = $("select#register-country").val();
     var city = $("input#register-city").val();
-    var age_month = $("select#register-age-month").val();
-    var age_year = $("select#register-age-year").val();
+    var dob = $("input#register-dob").val();
     var gender = $("select#register-gender").val();
     var sterilized = $("input#register-sterilized").is(":checked");
     var house_trained = $("input#register-house-trained").is(":checked");
@@ -287,11 +287,11 @@ function registrationAjax() {
         type: "POST",
         data: {
             pet_name: pet_name,
+            species: species,
             breed: breed,
             country: country,
             city: city,
-            age_month: age_month,
-            age_year: age_year,
+            dob: dob,
             gender: gender,
             sterilized: sterilized,
             house_trained: house_trained,
@@ -349,6 +349,33 @@ function registrationAjax() {
     });
 }
 
+$(document).ready(function () {
+    $('#register-dob').datepicker({
+        todayHighlight: true,
+        format: 'dd-mm-yyyy'
+    });
+});
+
+$('#register-species').click(
+    function () {
+    var b = JSON.parse(document.getElementById('breeds').textContent);
+    var curr_species = $('#register-species').val();
+    $('#register-breed').find('option').remove();
+    var breed_select = $('#register-breed');
+    breed_select.append(new Option('Choose',''));
+    if (curr_species == 'Dog') {
+        var dog_breeds = b['dogs'];
+        for (var i = 0; i < dog_breeds.length; i++) {
+            breed_select.append(new Option(dog_breeds[i], dog_breeds[i]));
+        }
+    } else if (curr_species == 'Cat') {
+        var cat_breeds = b['cats'];
+        for (var i = 0; i < cat_breeds.length; i++) {
+            breed_select.append(new Option(cat_breeds[i], cat_breeds[i]));
+        }
+    }
+}
+);
 
 /* Filter button */
 $(document).ready(function () {
@@ -376,6 +403,10 @@ function populate_filters() {
     if (getUrlParameter('a')) {
         $('#filter-age').prop("value", getUrlParameter('a'));
     }
+    if (getUrlParameter('sp')) {
+        $('#filter-species').prop("value", getUrlParameter('sp'));
+    }
+    populate_breeds();
     if (getUrlParameter('b')) {
         $('#filter-breed').prop("value", getUrlParameter('b'));
     }
@@ -400,29 +431,70 @@ function getUrlParameter(sParam) {
 }
 
 $('#filterButton').click(function () {
-    url = compute_filter_url()
+    url = compute_filter_url();
     window.location.assign(url);
 });
 
-function compute_filter_url() {
-    var url = "all?"
-    var pa = $("#filter-peepalfarm-approved").prop("checked");
-    url = url + "pa=" + pa + "&"
-    var ht = $("#filter-house-trained").prop("checked");
-    url = url + "ht=" + ht + "&"
-    var s = $("#filter-sterilized").prop("checked");
-    url = url + "s=" + s + "&"
-    var ab = $("#filter-added-by").val();
-    url = url + "ab=" + ab + "&"
-    var g = $("#filter-gender").val();
-    url = url + "g=" + g + "&"
-    var a = $("#filter-age").val();
-    url = url + "a=" + a + "&"
-    var b = $("#filter-breed").val();
-    url = url + "b=" + b + "&"
-    var c = $("#filter-country").val();
-    url = url + "c=" + c
+$('#homeFilterButton').click(function () {
+    url = compute_home_filter_url();
+    window.location.assign(url);
+});
+
+function compute_home_filter_url() {
+    var url = "pets/all?pa=true&ht=true&s=true&ab=2&g=&b=&";
+    var a = $("#home-age").val();
+    url = url + "a=" + a + "&";
+    var c = $("#home-country").val();
+    url = url + "c=" + c + "&";
+    var sp = $("#home-species").val();
+    url = url + "sp=" + sp;
     return url
+}
+
+function compute_filter_url() {
+    var url = "all?";
+    var pa = $("#filter-peepalfarm-approved").prop("checked");
+    url = url + "pa=" + pa + "&";
+    var ht = $("#filter-house-trained").prop("checked");
+    url = url + "ht=" + ht + "&";
+    var s = $("#filter-sterilized").prop("checked");
+    url = url + "s=" + s + "&";
+    var ab = $("#filter-added-by").val();
+    url = url + "ab=" + ab + "&";
+    var g = $("#filter-gender").val();
+    url = url + "g=" + g + "&";
+    var a = $("#filter-age").val();
+    url = url + "a=" + a + "&";
+    var b = $("#filter-breed").val();
+    url = url + "b=" + b + "&";
+    var c = $("#filter-country").val();
+    url = url + "c=" + c + "&";
+    var sp = $("#filter-species").val();
+    url = url + "sp=" + sp;
+    return url
+}
+
+$('#filter-species').click(function () {
+    populate_breeds();
+});
+
+function populate_breeds() {
+    var b = JSON.parse(document.getElementById('breeds').textContent);
+    var curr_species = $('#filter-species').val();
+    $('#filter-breed').find('option').remove();
+    var breed_select = $('#filter-breed');
+    breed_select.append(new Option('Choose', ''));
+    if (curr_species == 'Dog') {
+        var dog_breeds = b['dogs'];
+        for (var i = 0; i < dog_breeds.length; i++) {
+            breed_select.append(new Option(dog_breeds[i], dog_breeds[i]));
+        }
+    } else if (curr_species == 'Cat') {
+        var cat_breeds = b['cats'];
+        for (var i = 0; i < cat_breeds.length; i++) {
+            breed_select.append(new Option(cat_breeds[i], cat_breeds[i]));
+        }
+    }
 }
 
 // function filterAjax() {

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static countries %}
 
 {% block page %}
 <!-- Header -->
@@ -8,7 +8,42 @@
         <div class="intro-text">
             <div class="intro-heading text-uppercase">Adopt Happiness</div>
             <!--<div class="intro-lead-in">Welcome to the Pet Finder!</div>-->
-            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>
+            <!--<a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>-->
+            <form class="text-center" id="homeFilterForm" name="sendhomeFilterForm" role="form">
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <select class="form-control" id="home-species" type="text">
+                            <option value=''>Select Species</option>
+                            <option value='Dog'>Dog</option>
+                            <option value='Cat'>Cat</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" id="home-age" type="text">
+                            <option value="">Select Age</option>
+                            <option value="0.15-1.5">puppy</option>
+                            <option value="1-6">adult</option>
+                            <option value="6-15">senior</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        {% get_countries as countries %}
+                        <select class="form-control" id="home-country" type="text">
+                            <option value="">Select Country</option>
+                            {% for country in countries %}
+                            <option value="{{ country.code }}">{{ country.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12 text-center">
+                        <button id="homeFilterButton" class="btn btn-primary btn-md text-uppercase" type="button">
+                            Adopt
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </header>

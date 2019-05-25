@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 
 class Detail(models.Model):
     id = models.AutoField(primary_key = True, db_index = True)
-    age_month = models.IntegerField(default = 0)
-    age_year = models.BigIntegerField(default = 0, db_index = True)
+    age = models.FloatField(default = 0.0, db_index = True)
+    dob = models.CharField(max_length = 100, null = True)
     breed = models.CharField(max_length = 500, null = True, db_index = True)
     created = models.DateTimeField()
     updated = models.DateTimeField(auto_now = True, db_index = True)
@@ -31,6 +31,7 @@ class Detail(models.Model):
     added_by = models.ForeignKey(User, on_delete = models.CASCADE)
     peepalfarm_approved = models.BooleanField(default = False)
     enabled = models.BooleanField(default = False)
+    species = models.CharField(max_length = 100, choices = (('Dog', 'Dog'), ('Cat', 'Cat')), default = 'Dog')
 
 
 class Media(models.Model):

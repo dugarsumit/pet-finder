@@ -47,9 +47,6 @@
                         <label class="form-label col-md-4 col-form-label text-left">Gender</label>
                         <div class="col-md-8">
                             <select class="form-control" id="filter-gender" type="text">
-                                {% if filters.pa == "true" %}
-                                {% else %}
-                                {% endif %}
                                 <option value="">Choose</option>
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
@@ -60,16 +57,20 @@
                         <label class="form-label col-md-4 col-form-label text-left">Age</label>
                         <div class="col-md-8">
                             <select class="form-control" id="filter-age" type="text">
-                                {% if filters.pa == "true" %}
-                                {% else %}
-                                {% endif %}
                                 <option value="">Choose</option>
-                                <option value="0-1">0 to 1 years</option>
-                                <option value="1-2">1 to 2 years</option>
-                                <option value="2-4">2 to 4 years</option>
-                                <option value="4-6">4 to 6 years</option>
-                                <option value="6-10">6 to 10 years</option>
-                                <option value="10-15">10 to 15 years</option>
+                                <option value="0.15-1.5">puppy</option>
+                                <option value="1-6">adult</option>
+                                <option value="6-15">senior</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="form-label col-md-4 col-form-label text-left">Species</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="filter-species" type="text">
+                                <option value="">Choose</option>
+                                <option value='Dog'>Dog</option>
+                                <option value='Cat'>Cat</option>
                             </select>
                         </div>
                     </div>
@@ -77,13 +78,8 @@
                         <label class="form-label col-md-4 col-form-label text-left">Breed</label>
                         <div class="col-md-8">
                             <select class="form-control" id="filter-breed" type="text">
-                                {% if filters.pa == "true" %}
-                                {% else %}
-                                {% endif %}
+                                {{ breeds|json_script:"breeds" }}
                                 <option value="">Choose</option>
-                                {% for breed in breeds %}
-                                <option value="{{ breed }}">{{ breed }}</option>
-                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -92,9 +88,6 @@
                         <div class="col-md-8">
                             {% get_countries as countries %}
                             <select class="form-control" id="filter-country" type="text">
-                                {% if filters.pa == "true" %}
-                                {% else %}
-                                {% endif %}
                                 <option value="">Choose</option>
                                 {% for country in countries %}
                                 <option value="{{ country.code }}">{{ country.name }}</option>
@@ -202,7 +195,7 @@
                                                             <h5>Age</h5>
                                                         </div>
                                                         <div class="col-md-8 value-text text-muted">
-                                                            {{pet.age_year}} Year Old
+                                                            {{pet.dob}} | {{pet.age}} Year Old
                                                         </div>
                                                     </div>
                                                     <div class="row">

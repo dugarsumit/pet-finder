@@ -21,13 +21,26 @@
                            data-validation-required-message="Please enter pet's name.">
                     <p class="help-block with-errors text-danger"></p>
                 </div>
+                <label class="form-label col-md-2 col-form-label">DOB*</label>
+                <div class="col-md-4 input-group date">
+                    <input data-provide="datepicker" class="form-control" id="register-dob" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Species*</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="register-species" type="text" required="required">
+                        <option value=''>Choose</option>
+                        <option value='Dog'>Dog</option>
+                        <option value='Cat'>Cat</option>
+                    </select>
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
                 <label class="form-label col-md-2 col-form-label">Breed*</label>
                 <div class="col-md-4">
+                    {{ breeds|json_script:"breeds" }}
                     <select class="form-control" id="register-breed" type="text" required="required">
                         <option value="">Choose</option>
-                        {% for breed in breeds %}
-                        <option value="{{ breed }}">{{ breed }}</option>
-                        {% endfor %}
                     </select>
                     <p class="help-block with-errors text-danger"></p>
                 </div>
@@ -51,48 +64,48 @@
                     <p class="help-block with-errors text-danger"></p>
                 </div>
             </div>
-            <div class="row form-group">
-                <label class="form-label col-md-2 col-form-label">Age in Months*</label>
-                <div class="col-md-4">
-                    <select class="form-control" id="register-age-month" type="text" required="required">
-                        <option value=0>Choose</option>
-                        <option value=1>1</option>
-                        <option value=2>2</option>
-                        <option value=3>3</option>
-                        <option value=4>4</option>
-                        <option value=5>5</option>
-                        <option value=6>6</option>
-                        <option value=7>7</option>
-                        <option value=8>8</option>
-                        <option value=9>9</option>
-                        <option value=10>10</option>
-                        <option value=11>11</option>
-                    </select>
-                    <p class="help-block with-errors text-danger"></p>
-                </div>
-                <label class="form-label col-md-2 col-form-label">Age in Years*</label>
-                <div class="col-md-4">
-                    <select class="form-control" id="register-age-year" type="text" required="required">
-                        <option value=0>Choose</option>
-                        <option value=1>1</option>
-                        <option value=2>2</option>
-                        <option value=3>3</option>
-                        <option value=4>4</option>
-                        <option value=5>5</option>
-                        <option value=6>6</option>
-                        <option value=7>7</option>
-                        <option value=8>8</option>
-                        <option value=9>9</option>
-                        <option value=10>10</option>
-                        <option value=11>11</option>
-                        <option value=12>12</option>
-                        <option value=13>13</option>
-                        <option value=14>14</option>
-                        <option value=15>15</option>
-                    </select>
-                    <p class="help-block with-errors text-danger"></p>
-                </div>
-            </div>
+            <!--<div class="row form-group">-->
+                <!--<label class="form-label col-md-2 col-form-label">Age in Months*</label>-->
+                <!--<div class="col-md-4">-->
+                    <!--<select class="form-control" id="register-age-month" type="text" required="required">-->
+                        <!--<option value=0>Choose</option>-->
+                        <!--<option value=1>1</option>-->
+                        <!--<option value=2>2</option>-->
+                        <!--<option value=3>3</option>-->
+                        <!--<option value=4>4</option>-->
+                        <!--<option value=5>5</option>-->
+                        <!--<option value=6>6</option>-->
+                        <!--<option value=7>7</option>-->
+                        <!--<option value=8>8</option>-->
+                        <!--<option value=9>9</option>-->
+                        <!--<option value=10>10</option>-->
+                        <!--<option value=11>11</option>-->
+                    <!--</select>-->
+                    <!--<p class="help-block with-errors text-danger"></p>-->
+                <!--</div>-->
+                <!--<label class="form-label col-md-2 col-form-label">Age in Years*</label>-->
+                <!--<div class="col-md-4">-->
+                    <!--<select class="form-control" id="register-age-year" type="text" required="required">-->
+                        <!--<option value=0>Choose</option>-->
+                        <!--<option value=1>1</option>-->
+                        <!--<option value=2>2</option>-->
+                        <!--<option value=3>3</option>-->
+                        <!--<option value=4>4</option>-->
+                        <!--<option value=5>5</option>-->
+                        <!--<option value=6>6</option>-->
+                        <!--<option value=7>7</option>-->
+                        <!--<option value=8>8</option>-->
+                        <!--<option value=9>9</option>-->
+                        <!--<option value=10>10</option>-->
+                        <!--<option value=11>11</option>-->
+                        <!--<option value=12>12</option>-->
+                        <!--<option value=13>13</option>-->
+                        <!--<option value=14>14</option>-->
+                        <!--<option value=15>15</option>-->
+                    <!--</select>-->
+                    <!--<p class="help-block with-errors text-danger"></p>-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="row form-group">
                 <label class="form-label col-md-2 col-form-label">Gender*</label>
                 <div class="col-md-4">

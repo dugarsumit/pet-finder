@@ -24,7 +24,10 @@ def list_all_pets(request):
         pets = get_filtered_pets(request.GET)
     else:
         pets = get_all_peepalfarm_approved_pets()
-    breeds = get_dog_breeds()
+    breeds = {
+        'dogs': get_dog_breeds(),
+        'cats': get_cat_breeds()
+    }
     users = get_users()
     template_vars['principal'] = request.user
     template_vars['breeds'] = breeds
@@ -36,7 +39,10 @@ def list_all_pets(request):
 @login_required
 def registration_form(request):
     template_vars = {}
-    breeds = get_dog_breeds()
+    breeds = {
+        'dogs': get_dog_breeds(),
+        'cats': get_cat_breeds()
+    }
     template_vars['breeds'] = breeds
     template_vars['username'] = request.user.username
     template_vars['userid'] = request.user.id
@@ -132,8 +138,9 @@ def get_all_peepalfarm_approved_pets():
         pet = {
             'id': e.id,
             'name': e.name,
-            'age_month': e.age_month,
-            'age_year': e.age_year,
+            'age': e.age,
+            'dob': e.dob,
+            'species': e.species,
             'breed': e.breed,
             'city': e.city,
             'country': e.country.name,
@@ -161,8 +168,9 @@ def get_filtered_pets(filter):
         pet = {
             'id': e.id,
             'name': e.name,
-            'age_month': e.age_month,
-            'age_year': e.age_year,
+            'age': e.age,
+            'dob': e.dob,
+            'species': e.species,
             'breed': e.breed,
             'city': e.city,
             'country': e.country.name,
@@ -214,7 +222,11 @@ def get_filtered_query(filter):
     age = filter.get('a', None)
     if age:
         age_range = age.split('-')
-        query = query.filter(age_year__range = (int(age_range[0]), int(age_range[1])))
+        query = query.filter(age__range = (float(age_range[0]), float(age_range[1])))
+
+    species = filter.get('sp', None)
+    if species:
+        query = query.filter(species = species)
 
     return query
 
@@ -240,13 +252,15 @@ def save_adoption_query_in_db(request):
 
 
 def save_registration_details_in_db(request):
+    age = compute_age(request.POST.get('dob'))
     q = Detail(
         name = request.POST.get('pet_name'),
+        species = request.POST.get('species'),
         breed = request.POST.get('breed'),
         country = request.POST.get('country'),
         city = request.POST.get('city'),
-        age_month = request.POST.get('age_month'),
-        age_year = request.POST.get('age_year'),
+        age = age,
+        dob = request.POST.get('dob'),
         gender = request.POST.get('gender'),
         sterilized = bool_convert(request.POST.get('sterilized')),
         house_trained = bool_convert(request.POST.get('house_trained')),
@@ -262,6 +276,13 @@ def save_registration_details_in_db(request):
     q.save()
     print('Saved registration request from', request.POST.get('email'))
     return q.id
+
+def compute_age(dob):
+    from datetime import date, datetime
+    born = datetime.strptime(dob, "%d-%m-%Y").date()
+    today = date.today()
+    age = (today-born).days/float(365.25)
+    return age
 
 
 def save_media_in_db(pet_id, file_path, media_type = 'image'):
@@ -296,4 +317,11 @@ def get_dog_breeds():
     with open(path) as json_file:
         data = json.load(json_file)
         dog_breeds = data['dogs']
+    return dog_breeds
+
+def get_cat_breeds():
+    path = os.path.join(settings.ROOT_PROJ_DIR, 'petfinder/static/cats.json')
+    with open(path) as json_file:
+        data = json.load(json_file)
+        dog_breeds = data['cats']
     return dog_breeds
