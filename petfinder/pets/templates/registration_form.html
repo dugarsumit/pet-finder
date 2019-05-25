@@ -64,48 +64,6 @@
                     <p class="help-block with-errors text-danger"></p>
                 </div>
             </div>
-            <!--<div class="row form-group">-->
-                <!--<label class="form-label col-md-2 col-form-label">Age in Months*</label>-->
-                <!--<div class="col-md-4">-->
-                    <!--<select class="form-control" id="register-age-month" type="text" required="required">-->
-                        <!--<option value=0>Choose</option>-->
-                        <!--<option value=1>1</option>-->
-                        <!--<option value=2>2</option>-->
-                        <!--<option value=3>3</option>-->
-                        <!--<option value=4>4</option>-->
-                        <!--<option value=5>5</option>-->
-                        <!--<option value=6>6</option>-->
-                        <!--<option value=7>7</option>-->
-                        <!--<option value=8>8</option>-->
-                        <!--<option value=9>9</option>-->
-                        <!--<option value=10>10</option>-->
-                        <!--<option value=11>11</option>-->
-                    <!--</select>-->
-                    <!--<p class="help-block with-errors text-danger"></p>-->
-                <!--</div>-->
-                <!--<label class="form-label col-md-2 col-form-label">Age in Years*</label>-->
-                <!--<div class="col-md-4">-->
-                    <!--<select class="form-control" id="register-age-year" type="text" required="required">-->
-                        <!--<option value=0>Choose</option>-->
-                        <!--<option value=1>1</option>-->
-                        <!--<option value=2>2</option>-->
-                        <!--<option value=3>3</option>-->
-                        <!--<option value=4>4</option>-->
-                        <!--<option value=5>5</option>-->
-                        <!--<option value=6>6</option>-->
-                        <!--<option value=7>7</option>-->
-                        <!--<option value=8>8</option>-->
-                        <!--<option value=9>9</option>-->
-                        <!--<option value=10>10</option>-->
-                        <!--<option value=11>11</option>-->
-                        <!--<option value=12>12</option>-->
-                        <!--<option value=13>13</option>-->
-                        <!--<option value=14>14</option>-->
-                        <!--<option value=15>15</option>-->
-                    <!--</select>-->
-                    <!--<p class="help-block with-errors text-danger"></p>-->
-                <!--</div>-->
-            <!--</div>-->
             <div class="row form-group">
                 <label class="form-label col-md-2 col-form-label">Gender*</label>
                 <div class="col-md-4">
@@ -113,6 +71,29 @@
                         <option value="">Choose</option>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
+                    </select>
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+                <label class="form-label col-md-2 col-form-label">Hair Length*</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="register-hair-length" required="required" type="text">
+                        <option value="">Choose</option>
+                        <option value="Short">Short</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Long">Long</option>
+                    </select>
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Size*</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="register-size" required="required" type="text">
+                        <option value="">Choose</option>
+                        <option value="Small">Small (1-10kg)</option>
+                        <option value="Medium">Medium (10-20kg)</option>
+                        <option value="Large">Large (20-30kg)</option>
+                        <option value="X-Large">X-Large (30+ kg)</option>
                     </select>
                     <p class="help-block with-errors text-danger"></p>
                 </div>
@@ -140,12 +121,34 @@
                 </div>
             </div>
             <div class="row form-group">
+                <label class="form-check-label col-md-2">Good with kids</label>
+                <div class="col-md-4 check-input">
+                    <input class="form-check-input" id="register-good-with-kids" type="checkbox">
+                </div>
+
+                <label class="form-check-label col-md-2">Good with cats</label>
+                <div class="col-md-4 check-input">
+                    <input class="form-check-input" id="register-good-with-cats" type="checkbox">
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="form-check-label col-md-2">Good with dogs</label>
+                <div class="col-md-4 check-input">
+                    <input class="form-check-input" id="register-good-with-dogs" type="checkbox">
+                </div>
+
+                <label class="form-check-label col-md-2">Special Needs</label>
+                <div class="col-md-4 check-input">
+                    <input class="form-check-input" id="register-special-needs" type="checkbox">
+                </div>
+            </div>
+            <div class="row form-group">
                 <label class="form-label col-md-2 col-form-label">Characteristics*</label>
                 <div class="col-md-10">
                     <textarea class="form-control" id="register-characteristics" required="required"></textarea>
                     <small id="characteristics-help" class="form-text text-muted text-left">
                         Specify pet's traits such as - Curious, Handsome, Playful, Loves Treats, Clever,
-                        Golden eyes, Medium length fur.
+                        Golden eyes.
                     </small>
                     <p class="help-block with-errors text-danger"></p>
                 </div>

@@ -265,10 +265,16 @@ function registrationAjax() {
     var city = $("input#register-city").val();
     var dob = $("input#register-dob").val();
     var gender = $("select#register-gender").val();
+    var hair_length = $("select#register-hair-length").val();
+    var size = $("select#register-size").val();
     var sterilized = $("input#register-sterilized").is(":checked");
     var house_trained = $("input#register-house-trained").is(":checked");
     var is_adopted = $("input#register-adopted").is(":checked");
     var show_badge = $("input#register-show-badge").is(":checked");
+    var kid_friendly = $("input#register-good-with-kids").is(":checked");
+    var cat_friendly = $("input#register-good-with-cats").is(":checked");
+    var dog_friendly = $("input#register-good-with-dogs").is(":checked");
+    var special_needs = $("input#register-special-needs").is(":checked");
     var characteristics = $("textarea#register-characteristics").val();
     var story = $("textarea#register-story").val();
     var added_by = $("input#register-user-id").val();
@@ -293,10 +299,16 @@ function registrationAjax() {
             city: city,
             dob: dob,
             gender: gender,
+            hair_length: hair_length,
+            size: size,
             sterilized: sterilized,
             house_trained: house_trained,
             is_adopted: is_adopted,
             show_badge: show_badge,
+            kid_friendly: kid_friendly,
+            cat_friendly: cat_friendly,
+            dog_friendly: dog_friendly,
+            special_needs: special_needs,
             characteristics: characteristics,
             story: story,
             added_by: added_by,

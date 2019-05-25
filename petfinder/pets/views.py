@@ -75,7 +75,7 @@ def validate_uploaded_file(upload_file):
     extension = upload_file.name.split('.')[-1].lower()
     if extension not in settings.ALLOWED_EXTENSION:
         return False
-    if ((upload_file.size/1024)/1024) > settings.MAX_UPLOAD_SIZE:
+    if ((upload_file.size / 1024) / 1024) > settings.MAX_UPLOAD_SIZE:
         return False
     return True
 
@@ -111,12 +111,11 @@ def pet_detail(request, pet_id):
 
 def format_pet_details(pet):
     updated_pet = {}
+    needs_formatting = ['sterilized', 'house_trained', 'kid_friendly', 'cat_friendly', 'dog_friendly', 'special_needs']
     for k, v in pet.items():
         if k == 'gender':
             v = 'Male' if v.lower() == 'm' else 'Female'
-        elif k == 'sterilized':
-            v = 'Yes' if v else 'No'
-        elif k == 'house_trained':
+        elif isinstance(v, bool) and k in needs_formatting:
             v = 'Yes' if v else 'No'
         updated_pet[k] = v
     return updated_pet
@@ -163,8 +162,6 @@ def get_filtered_pets(filter):
     query = get_filtered_query(filter = filter)
     for e in query:
         pet_media = get_pet_media(e.id)
-        print(e.id)
-        print(pet_media)
         pet = {
             'id': e.id,
             'name': e.name,
@@ -172,6 +169,8 @@ def get_filtered_pets(filter):
             'dob': e.dob,
             'species': e.species,
             'breed': e.breed,
+            'hair_length': e.hair_length,
+            'size': e.size,
             'city': e.city,
             'country': e.country.name,
             'story': e.story,
@@ -180,6 +179,10 @@ def get_filtered_pets(filter):
             'characteristics': e.characteristics,
             'is_adopted': e.is_adopted,
             'show_badge': e.show_badge,
+            'kid_friendly': e.kid_friendly,
+            'cat_friendly': e.cat_friendly,
+            'dog_friendly': e.dog_friendly,
+            'special_needs': e.special_needs,
             'image': pet_media[0],
             'media': pet_media,
             'gender': e.gender
@@ -262,10 +265,16 @@ def save_registration_details_in_db(request):
         age = age,
         dob = request.POST.get('dob'),
         gender = request.POST.get('gender'),
+        hair_length = request.POST.get('hair_length'),
+        size = request.POST.get('size'),
         sterilized = bool_convert(request.POST.get('sterilized')),
         house_trained = bool_convert(request.POST.get('house_trained')),
         is_adopted = bool_convert(request.POST.get('is_adopted')),
         show_badge = bool_convert(request.POST.get('show_badge')),
+        kid_friendly = bool_convert(request.POST.get('kid_friendly')),
+        cat_friendly = bool_convert(request.POST.get('cat_friendly')),
+        dog_friendly = bool_convert(request.POST.get('dog_friendly')),
+        special_needs = bool_convert(request.POST.get('special_needs')),
         characteristics = request.POST.get('characteristics'),
         story = request.POST.get('story'),
         added_by = get_user_by_id(request.POST.get('added_by')),
@@ -277,11 +286,12 @@ def save_registration_details_in_db(request):
     print('Saved registration request from', request.POST.get('email'))
     return q.id
 
+
 def compute_age(dob):
     from datetime import date, datetime
     born = datetime.strptime(dob, "%d-%m-%Y").date()
     today = date.today()
-    age = (today-born).days/float(365.25)
+    age = round((today - born).days / float(365.25), 1)
     return age
 
 
@@ -318,6 +328,7 @@ def get_dog_breeds():
         data = json.load(json_file)
         dog_breeds = data['dogs']
     return dog_breeds
+
 
 def get_cat_breeds():
     path = os.path.join(settings.ROOT_PROJ_DIR, 'petfinder/static/cats.json')

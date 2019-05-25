@@ -328,9 +328,9 @@ header.masthead .intro-text .intro-heading {
     color: #6B8E23;
 }
 
-#detail .badge-image {
-    left: 90%;
-    top: 10%;
+.detail-badge-image {
+    left: 80%;
+    top: 7%;
     position: absolute;
     margin-top: -25px;
     margin-left: -25px;

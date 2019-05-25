@@ -22,7 +22,7 @@ class Detail(models.Model):
     is_adopted = models.BooleanField(default = False, db_index = True)
     show_badge = models.BooleanField(default = False)
     characteristics = models.TextField(null = True,
-                                       help_text = 'Specify pet traits such as - Curious, Handsome, Playful, Loves Treats, Clever, Gold eyes, Medium length fur',
+                                       help_text = 'Specify pet traits such as - Curious, Handsome, Playful, Loves Treats, Clever, Gold eyes.',
                                        db_index = True)
     name = models.CharField(max_length = 100, null = False)
     gender = models.CharField(max_length = 10, choices = (('M', 'Male'), ('F', 'Female')), default = 'M')
@@ -32,6 +32,19 @@ class Detail(models.Model):
     peepalfarm_approved = models.BooleanField(default = False)
     enabled = models.BooleanField(default = False)
     species = models.CharField(max_length = 100, choices = (('Dog', 'Dog'), ('Cat', 'Cat')), default = 'Dog')
+    hair_length = models.CharField(max_length = 100,
+                                   choices = (('Short', 'Short'), ('Medium', 'Medium'), ('Long', 'Long')),
+                                   default = 'Medium')
+    size = models.CharField(max_length = 100,
+                            choices = (
+                                ('Small', 'Small (1-10kg)'), ('Medium', 'Medium (10-20kg)'),
+                                ('Large', 'Large (20-30kg)'), ('X-Large', 'X-Large (30+ kg)')),
+                            default = 'Medium')
+    kid_friendly = models.BooleanField(default = False)
+    cat_friendly = models.BooleanField(default = False)
+    dog_friendly = models.BooleanField(default = False)
+    special_needs = models.BooleanField(default = False)
+
 
 
 class Media(models.Model):
