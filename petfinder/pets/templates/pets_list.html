@@ -135,7 +135,7 @@
                         <div class="col-md-8">
                             {% get_countries as countries %}
                             <select class="form-control" id="filter-country" type="text">
-                                <option value="">Choose</option>
+                                <option value="">Any</option>
                                 {% for country in countries %}
                                 <option value="{{ country.code }}">{{ country.name }}</option>
                                 {% endfor %}

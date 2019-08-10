@@ -527,7 +527,7 @@ function populate_breeds() {
     var curr_species = $('#filter-species').val();
     $('#filter-breed').find('option').remove();
     var breed_select = $('#filter-breed');
-    breed_select.append(new Option('Choose', ''));
+    breed_select.append(new Option('Any', ''));
     if (curr_species == 'Dog') {
         var dog_breeds = b['dogs'];
         for (var i = 0; i < dog_breeds.length; i++) {
