@@ -32,7 +32,8 @@ def list_all_pets(request):
     template_vars['principal'] = request.user
     template_vars['breeds'] = breeds
     template_vars['users'] = users
-    template_vars['pets'] = pets * 16
+    # template_vars['pets'] = pets * 16
+    template_vars['pets'] = pets
     return render(request, 'pets_list.html', template_vars)
 
 
