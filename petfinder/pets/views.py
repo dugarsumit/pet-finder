@@ -183,7 +183,7 @@ def get_filtered_pets(filter):
             'cat_friendly': e.cat_friendly,
             'dog_friendly': e.dog_friendly,
             'special_needs': e.special_needs,
-            'image': pet_media[0],
+            'image': pet_media[0] if len(pet_media) > 0 else "",
             'media': pet_media,
             'gender': e.gender
         }
@@ -205,6 +205,18 @@ def get_filtered_query(filter):
     sterilized = filter.get('s', None)
     if sterilized is not None:
         query = query.filter(sterilized = bool_convert(sterilized))
+
+    good_with_kids = filter.get('gwk', None)
+    if good_with_kids is not None:
+        query = query.filter(kid_friendly = bool_convert(good_with_kids))
+
+    good_with_cats = filter.get('gwc', None)
+    if good_with_cats is not None:
+        query = query.filter(cat_friendly = bool_convert(good_with_cats))
+
+    good_with_dogs = filter.get('gwd', None)
+    if good_with_dogs is not None:
+        query = query.filter(dog_friendly = bool_convert(good_with_dogs))
 
     added_by = filter.get('ab', None)
     if added_by:
@@ -230,6 +242,14 @@ def get_filtered_query(filter):
     species = filter.get('sp', None)
     if species:
         query = query.filter(species = species)
+
+    hair_length = filter.get('hl', None)
+    if hair_length:
+        query = query.filter(hair_length = hair_length)
+
+    size = filter.get('sz', None)
+    if size:
+        query = query.filter(size = size)
 
     return query
 

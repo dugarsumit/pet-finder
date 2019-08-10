@@ -400,6 +400,15 @@ function populate_filters() {
     if (getUrlParameter('s') == 'true') {
         $('#filter-sterilized').prop("checked", true);
     }
+    if (getUrlParameter('gwk') == 'true') {
+        $('#filter-good-with-kids').prop("checked", true);
+    }
+    if (getUrlParameter('gwc') == 'true') {
+        $('#filter-good-with-cats').prop("checked", true);
+    }
+    if (getUrlParameter('gwd') == 'true') {
+        $('#filter-good-with-dogs').prop("checked", true);
+    }
     if (getUrlParameter('ab')) {
         $('#filter-added-by').prop("value", getUrlParameter('ab'));
     }
@@ -418,6 +427,12 @@ function populate_filters() {
     }
     if (getUrlParameter('c')) {
         $('#filter-country').prop("value", getUrlParameter('c'));
+    }
+    if (getUrlParameter('hl')) {
+        $('#filter-hair-length').prop("value", getUrlParameter('hl'));
+    }
+    if (getUrlParameter('sz')) {
+        $('#filter-size').prop("value", getUrlParameter('sz'));
     }
 }
 
@@ -447,7 +462,8 @@ $('#homeFilterButton').click(function () {
 });
 
 function compute_home_filter_url() {
-    var url = "pets/all?pa=true&ht=true&s=true&ab=2&g=&b=&";
+    // var url = "pets/all?pa=true&ht=true&s=true&ab=2&g=&b=&";
+    var url = "pets/all?pa=true&ab=2&g=&b=&";
     var a = $("#home-age").val();
     url = url + "a=" + a + "&";
     var c = $("#home-country").val();
@@ -460,11 +476,29 @@ function compute_home_filter_url() {
 function compute_filter_url() {
     var url = "all?";
     var pa = $("#filter-peepalfarm-approved").prop("checked");
-    url = url + "pa=" + pa + "&";
+    if(pa){
+        url = url + "pa=" + pa + "&";
+    }
     var ht = $("#filter-house-trained").prop("checked");
-    url = url + "ht=" + ht + "&";
+    if(ht){
+        url = url + "ht=" + ht + "&";
+    }
     var s = $("#filter-sterilized").prop("checked");
-    url = url + "s=" + s + "&";
+    if(s){
+        url = url + "s=" + s + "&";
+    }
+    var gwk = $("#filter-good-with-kids").prop("checked");
+    if(gwk){
+        url = url + "gwk=" + gwk + "&";
+    }
+    var gwc = $("#filter-good-with-cats").prop("checked");
+    if(gwc){
+        url = url + "gwc=" + gwc + "&";
+    }
+    var gwd = $("#filter-good-with-dogs").prop("checked");
+    if(gwd){
+        url = url + "gwd=" + gwd + "&";
+    }
     var ab = $("#filter-added-by").val();
     url = url + "ab=" + ab + "&";
     var g = $("#filter-gender").val();
@@ -476,7 +510,11 @@ function compute_filter_url() {
     var c = $("#filter-country").val();
     url = url + "c=" + c + "&";
     var sp = $("#filter-species").val();
-    url = url + "sp=" + sp;
+    url = url + "sp=" + sp + "&";
+    var hl = $("#filter-hair-length").val();
+    url = url + "hl=" + hl + "&";
+    var sz = $("#filter-size").val();
+    url = url + "sz=" + sz;
     return url
 }
 
