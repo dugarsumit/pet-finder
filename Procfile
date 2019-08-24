@@ -1,0 +1,1 @@
+web: gunicorn petfinder.petfinder.wsgi --log-file -
