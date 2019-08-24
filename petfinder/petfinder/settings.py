@@ -97,13 +97,24 @@ WSGI_APPLICATION = 'petfinder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'mydb',
+#         'USER': 'myuser',
+#         'PASSWORD': 'warriorclan',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydb',
-        'USER': 'myuser',
-        'PASSWORD': 'warriorclan',
-        'HOST': 'localhost',
+        'NAME': 'd6bagneb2co9kb',
+        'USER': 'lwtzifurghzrlw',
+        'PASSWORD': '462ccdad37b2d354422cb67a39c4d0f31b8e29d41f41bf05f74777b2cffba548',
+        'HOST': 'ec2-54-247-96-169.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
