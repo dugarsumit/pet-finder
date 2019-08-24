@@ -65,6 +65,20 @@
                 </div>
             </div>
             <div class="row form-group">
+                <label class="form-label col-md-2 col-form-label">Forbidden Countries*</label>
+                <div class="col-md-4">
+                    {% get_countries as countries %}
+                    <select class="form-control" id="register-forbidden-countries" type="text" multiple>
+                        <option value="">Choose</option>
+                        {% for country in countries %}
+                        <option value="{{ country.code }}">{{ country.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <small id="forbidden-countries-help" class="form-text text-muted text-left">
+                        (Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.)
+                    </small>
+                    <p class="help-block with-errors text-danger"></p>
+                </div>
                 <label class="form-label col-md-2 col-form-label">Gender*</label>
                 <div class="col-md-4">
                     <select class="form-control" id="register-gender" required="required" type="text">
@@ -74,6 +88,8 @@
                     </select>
                     <p class="help-block with-errors text-danger"></p>
                 </div>
+            </div>
+            <div class="row form-group">
                 <label class="form-label col-md-2 col-form-label">Hair Length*</label>
                 <div class="col-md-4">
                     <select class="form-control" id="register-hair-length" required="required" type="text">
@@ -84,8 +100,6 @@
                     </select>
                     <p class="help-block with-errors text-danger"></p>
                 </div>
-            </div>
-            <div class="row form-group">
                 <label class="form-label col-md-2 col-form-label">Size*</label>
                 <div class="col-md-4">
                     <select class="form-control" id="register-size" required="required" type="text">
@@ -215,7 +229,7 @@
                         <input style="height: 45px;" class="form-control" required="required" type="file"
                                id="multiupload"
                                name="files[]"
-                               multiple="multiple">
+                               multiple="multiple" autofocus>
                         <p class="help-block with-errors text-danger"></p>
                         <div id="upload-stats"></div>
                     </div>

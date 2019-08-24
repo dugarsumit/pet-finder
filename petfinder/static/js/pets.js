@@ -243,12 +243,12 @@ $('#upload-btn').click(function () {
 
 
 /* Registration Form */
-$('#sendRegistrationFormButton').click(function () {
+$('#sendRegistrationFormButton').click(function (e) {
     $('#registrationForm').validator('validate');
+    e.preventDefault();
+    e.stopPropagation();
     registrationAjax();
-    $('html, body').animate({
-        scrollTop: $("#sendRegistrationFormButton").offset().top
-    }, 400);
+    return false;
 });
 
 function registrationAjax() {
@@ -274,6 +274,7 @@ function registrationAjax() {
     var added_by = $("input#register-user-id").val();
     var email = $("input#register-email").val();
     var mobile = $("input#register-mobile").val();
+    var forbidden_countries = $("select#register-forbidden-countries").val();
 
     var firstName = $("input#register-added-by").val(); // For Success/Failure Message
     // Check for white space in name for Success/Fail message
@@ -307,13 +308,17 @@ function registrationAjax() {
             story: story,
             added_by: added_by,
             email: email,
-            mobile: mobile
+            mobile: mobile,
+            forbidden_countries: forbidden_countries
         },
         headers: {
             "X-CSRFToken": getCookie('csrftoken')
         },
         cache: false,
         success: function (data) {
+            //clear all fields
+            $('#registrationForm').trigger("reset");
+
             // Success message
             $('#register-success').html("<div class='alert alert-success'>");
             $('#register-success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
@@ -322,20 +327,12 @@ function registrationAjax() {
                 .append("<strong>Your message has been sent. Now Please upload some images. </strong>");
             $('#register-success > .alert-success')
                 .append('</div>');
-            //clear all fields
-            $('#registrationForm').trigger("reset");
 
             // show uload block
             $('#upload-block').show();
 
             // set  pet-id
             $("#register-pet-id").val(data.pet_id);
-
-            // // prevent submit success scroll
-            // event.preventDefault();
-            // $('html, body').animate({
-            //     scrollTop: $("#upload-block").offset().top
-            // }, 400);
         },
         error: function () {
             // Fail message
@@ -348,9 +345,12 @@ function registrationAjax() {
             // $('#registrationForm').trigger("reset");
         },
         complete: function () {
+            // Re-enable submit button when AJAX call is complete
             setTimeout(function () {
-                $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+                $this.prop("disabled", false);
             }, 1000);
+            // $('html, body').stop();
+            console.log('adasd')
         }
     });
 }
@@ -434,6 +434,9 @@ function populate_filters() {
     if (getUrlParameter('sz')) {
         $('#filter-size').prop("value", getUrlParameter('sz'));
     }
+    if (getUrlParameter('ac')) {
+        $('#filter-adoption-country').prop("value", getUrlParameter('ac'));
+    }
 }
 
 function getUrlParameter(sParam) {
@@ -463,11 +466,12 @@ $('#homeFilterButton').click(function () {
 
 function compute_home_filter_url() {
     // var url = "pets/all?pa=true&ht=true&s=true&ab=2&g=&b=&";
-    var url = "pets/all?pa=true&ab=2&g=&b=&";
+    // var url = "pets/all?pa=true&ab=2&g=&b=&";
+    var url = "pets/all?pa=true&g=&b=&";
     var a = $("#home-age").val();
     url = url + "a=" + a + "&";
-    var c = $("#home-country").val();
-    url = url + "c=" + c + "&";
+    var ac = $("#home-adoption-country").val();
+    url = url + "ac=" + ac + "&";
     var sp = $("#home-species").val();
     url = url + "sp=" + sp;
     return url
@@ -514,7 +518,9 @@ function compute_filter_url() {
     var hl = $("#filter-hair-length").val();
     url = url + "hl=" + hl + "&";
     var sz = $("#filter-size").val();
-    url = url + "sz=" + sz;
+    url = url + "sz=" + sz + "&";
+    var ac = $("#filter-adoption-country").val();
+    url = url + "ac=" + ac;
     return url
 }
 
@@ -540,155 +546,3 @@ function populate_breeds() {
         }
     }
 }
-
-// function filterAjax() {
-//     var pa = $("#filter-peepalfarm-approved").val();
-//     var ht = $("#filter-house-trained").val();
-//     var s = $("#filter-sterilized").val();
-//     var ab = $("#filter-added-by").val();
-//     var g = $("#filter-gender").val();
-//     var a = $("#filter-age").val();
-//     var b = $("#filter-breed").val();
-//     var c = $("#filter-country").val();
-//
-//     $this = $("#filterButton");
-//     $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
-//     $.ajax({
-//         url: "pets/all",
-//         type: "GET",
-//         data: {
-//             pa: pa,
-//             ht: ht,
-//             s: s,
-//             ab: ab,
-//             g: g,
-//             a: a,
-//             b: b,
-//             c: c
-//         },
-//         cache: false,
-//         success: function () {
-//             // Success message
-//         },
-//         error: function () {
-//             // Fail message
-//         },
-//         complete: function () {
-//             setTimeout(function () {
-//                 $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
-//             }, 1000);
-//         }
-//     });
-//
-// }
-
-// $(function () {
-//
-//     $("#registrationForm input,#registrationForm textarea,#registrationForm select").jqBootstrapValidation({
-//         preventSubmit: true,
-//         submitError: function ($form, event, errors) {
-//             // additional error messages or events
-//         },
-//         submitSuccess: function ($form, event) {
-//             event.preventDefault(); // prevent default submit behaviour
-//             // get values from FORM
-//
-//             var fileList = $('#multiupload').prop("files");
-//             var images_list = [];
-//             var i = 0;
-//             for (i = 0; i < fileList.length; i++) {
-//                 images_list.push[fileList[i].name]
-//             }
-//             var pet_name = $("input#register-pet-name").val();
-//             var breed = $("input#register-breed").val();
-//             var age_month = $("input#register-age-month").val();
-//             var age_year = $("input#register-age-year").val();
-//             var location = $("input#register-location").val();
-//             var gender = $("input#register-gender").val();
-//             var sterilized = $("input#register-sterilized").val();
-//             var house_trained = $("input#register-house-trained").val();
-//             var is_adopted = $("input#register-adopted").val();
-//             var show_badge = $("input#register-show-badge").val();
-//             var characteristics = $("input#register-characteristics").val();
-//             var story = $("input#register-story").val();
-//             var images = images_list;
-//             var added_by = $("input#register-added-by").val();
-//             var email = $("input#register-email").val();
-//             var mobile = $("input#register-mobile").val();
-//
-//             var firstName = pet_name; // For Success/Failure Message
-//             // Check for white space in name for Success/Fail message
-//             if (firstName.indexOf(' ') >= 0) {
-//                 firstName = name.split(' ').slice(0, -1).join(' ');
-//             }
-//             $this = $("#sendRegistrationFormButton");
-//             $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
-//             $.ajax({
-//                 url: "submit",
-//                 type: "POST",
-//                 data: {
-//                     pet_name: pet_name,
-//                     breed: breed,
-//                     age_month: age_month,
-//                     age_year: age_year,
-//                     location: location,
-//                     gender: gender,
-//                     sterilized: sterilized,
-//                     house_trained: house_trained,
-//                     is_adopted: is_adopted,
-//                     show_badge: show_badge,
-//                     characteristics: characteristics,
-//                     story: story,
-//                     images: images,
-//                     added_by: added_by,
-//                     email: email,
-//                     mobile: mobile
-//                 },
-//                 headers: {
-//                     "X-CSRFToken": getCookie('csrftoken')
-//                 },
-//                 cache: false,
-//                 success: function () {
-//                     // Success message
-//                     $('#register-success').html("<div class='alert alert-success'>");
-//                     $('#register-success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-//                         .append("</button>");
-//                     $('#register-success > .alert-success')
-//                         .append("<strong>Your message has been sent. </strong>");
-//                     $('#register-success > .alert-success')
-//                         .append('</div>');
-//                     //clear all fields
-//                     $('#registrationForm').trigger("reset");
-//                 },
-//                 error: function () {
-//                     // Fail message
-//                     $('#register-success').html("<div class='alert alert-danger'>");
-//                     $('#register-success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-//                         .append("</button>");
-//                     $('#register-success > .alert-danger').append($("<strong>").text("Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!"));
-//                     $('#register-success > .alert-danger').append('</div>');
-//                     //clear all fields
-//                     $('#registrationForm').trigger("reset");
-//                 },
-//                 complete: function () {
-//                     setTimeout(function () {
-//                         $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
-//                     }, 1000);
-//                 }
-//             });
-//         },
-//         filter: function () {
-//             return $(this).is(":visible");
-//         },
-//     });
-//
-//     $("a[data-toggle=\"tab\"]").click(function (e) {
-//         e.preventDefault();
-//         $(this).tab("show");
-//     });
-// });
-//
-// /*When clicking on Full hide fail/success boxes */
-// $('#register-pet-name').focus(function () {
-//     $('#register-success').html('');
-// });

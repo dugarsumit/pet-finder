@@ -1,6 +1,31 @@
 from django.db import models
 from django_countries.fields import CountryField
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
+from django import forms
+from django_countries import countries
+
+class MultipleCountryField(ArrayField):
+    """
+    A field that allows us to store an array of choices.
+
+    Uses Django 1.9's postgres ArrayField
+    and a MultipleChoiceField for its formfield.
+
+    Usage:
+
+        choices = ChoiceArrayField(models.CharField(max_length=...,
+                                                    choices=(...,)),
+                                   default=[...])
+    """
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': forms.MultipleChoiceField,
+            'choices': self.base_field.choices,
+        }
+        defaults.update(kwargs)
+        return super(ArrayField, self).formfield(**defaults)
 
 
 # Create your models here.
@@ -12,9 +37,7 @@ class Detail(models.Model):
     breed = models.CharField(max_length = 500, null = True, db_index = True)
     created = models.DateTimeField()
     updated = models.DateTimeField(auto_now = True, db_index = True)
-    # location = models.CharField(max_length = 250, null = True, db_index = True)
     city = models.CharField(max_length = 250, null = True, db_index = True)
-    # state = models.CharField(max_length = 250, null = True, db_index = True)
     country = CountryField(null = True)
     story = models.TextField(null = True, help_text = 'Write a story about the pet')
     sterilized = models.BooleanField(default = False, db_index = True)
@@ -44,8 +67,11 @@ class Detail(models.Model):
     cat_friendly = models.BooleanField(default = False)
     dog_friendly = models.BooleanField(default = False)
     special_needs = models.BooleanField(default = False)
-
-
+    forbidden_countries = MultipleCountryField(models.CharField(max_length = 2, null = True, blank = True, choices = tuple(countries)),
+                                               help_text = 'Specify countries in which adoptions of pet is not allowed. (Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.)',
+                                               db_index = True,
+                                               null = True,
+                                               blank = True)
 
 class Media(models.Model):
     id = models.AutoField(primary_key = True, db_index = True)

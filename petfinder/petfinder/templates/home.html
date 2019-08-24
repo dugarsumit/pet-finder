@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-4">
                         <select class="form-control" id="home-age" type="text">
-                            <option value="">Select Age</option>
+                            <option value="">Select Pet's Age</option>
                             <option value="0.15-1.5">puppy</option>
                             <option value="1-6">adult</option>
                             <option value="6-15">senior</option>
@@ -28,8 +28,8 @@
                     </div>
                     <div class="col-md-4">
                         {% get_countries as countries %}
-                        <select class="form-control" id="home-country" type="text">
-                            <option value="">Select Country</option>
+                        <select class="form-control" id="home-adoption-country" type="text">
+                            <option value="">Select Your Country</option>
                             {% for country in countries %}
                             <option value="{{ country.code }}">{{ country.name }}</option>
                             {% endfor %}

@@ -2,13 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from .models import *
 from datetime import datetime
-from django import forms
 import os
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from django_countries import countries
 import json
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 
 # Create your views here.
@@ -161,6 +160,7 @@ def get_all_peepalfarm_approved_pets():
 def get_filtered_pets(filter):
     pets = []
     query = get_filtered_query(filter = filter)
+    print(query)
     for e in query:
         pet_media = get_pet_media(e.id)
         pet = {
@@ -195,9 +195,15 @@ def get_filtered_pets(filter):
 def get_filtered_query(filter):
     query = Detail.objects.filter()
     query = query.filter(enabled = True)
+
     peepalfarm_approved = filter.get('pa', None)
     if peepalfarm_approved is not None:
         query = query.filter(peepalfarm_approved = bool_convert(peepalfarm_approved))
+
+    adoption_country = filter.get('ac', None)
+    if adoption_country is not None:
+        adoption_countries = [adoption_country]
+        query = query.filter(~Q(forbidden_countries__contains = adoption_countries))
 
     house_trained = filter.get('ht', None)
     if house_trained is not None:
@@ -301,7 +307,8 @@ def save_registration_details_in_db(request):
         added_by = get_user_by_id(request.POST.get('added_by')),
         email = request.POST.get('email'),
         mobile = request.POST.get('mobile'),
-        created = datetime.now()
+        created = datetime.now(),
+        forbidden_countries = request.POST.getlist('forbidden_countries[]')
     )
     q.save()
     print('Saved registration request from', request.POST.get('email'))

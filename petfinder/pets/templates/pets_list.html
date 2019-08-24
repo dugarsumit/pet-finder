@@ -15,6 +15,18 @@
             <div class="col-md-3 shadow p-3 mb-5 bg-white rounded">
                 <form class="text-center" id="filterForm" name="filterForm" role="form">
                     <div class="row form-group">
+                        <label class="form-label col-md-6 col-form-label text-left">Your Country*</label>
+                        <div class="col-md-6">
+                            {% get_countries as countries %}
+                            <select class="form-control" id="filter-adoption-country" type="text">
+                                <option value="">Choose</option>
+                                {% for country in countries %}
+                                <option value="{{ country.code }}">{{ country.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
                         <label class="form-check-label col-md-10 text-left">Peepalfarm Approved</label>
                         <div class="col-md-2 check-input">
                             <input class="form-check-input" id="filter-peepalfarm-approved" type="checkbox">
@@ -131,7 +143,7 @@
                         </div>
                     </div>
                     <div class="row form-group">
-                        <label class="form-label col-md-4 col-form-label text-left">Country</label>
+                        <label class="form-label col-md-4 col-form-label text-left">Pet's Country</label>
                         <div class="col-md-8">
                             {% get_countries as countries %}
                             <select class="form-control" id="filter-country" type="text">
@@ -159,23 +171,23 @@
                     {% include 'pet_card.html' with pet=pet only %}
 
                     <!-- Story Modal -->
-                    <div style="z-index: 1050" class="modal fade" id="storymodal-{{pet.id}}" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalCenterTitle"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="storyModalLongTitle">Hi! I am {{pet.name}}!</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body text-muted" style="padding: 25px">
-                                    {{pet.story}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div style="z-index: 1050" class="modal fade" id="storymodal-{{pet.id}}" tabindex="-1" role="dialog"-->
+                         <!--aria-labelledby="exampleModalCenterTitle"-->
+                         <!--aria-hidden="true">-->
+                        <!--<div class="modal-dialog modal-dialog-centered modal-lg" role="document">-->
+                            <!--<div class="modal-content">-->
+                                <!--<div class="modal-header">-->
+                                    <!--<h5 class="modal-title" id="storyModalLongTitle">Hi! I am {{pet.name}}!</h5>-->
+                                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                        <!--<span aria-hidden="true">&times;</span>-->
+                                    <!--</button>-->
+                                <!--</div>-->
+                                <!--<div class="modal-body text-muted" style="padding: 25px">-->
+                                    <!--{{pet.story}}-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
                     <!-- Adopt Modal -->
                     <div style="z-index: 9999" class="modal fade" id="adoptmodal" tabindex="-1" role="dialog"
@@ -342,6 +354,14 @@
                                                     <div class="row">
                                                         <div class="col-md-12 value-text text-muted">
                                                             {{pet.characteristics}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            {% if pet.is_adopted %}
+                                                            {% else %}
+                                                            <a class="btn btn-primary" data-dismiss="modal" data-toggle="modal" href="#adoptmodal" role="button">Adopt</a>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>
