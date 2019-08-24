@@ -1,5 +1,6 @@
-data-access
-dbservice
+django
+gunicorn
+django-heroku
 Django
 django-appconf
 django-compressor
