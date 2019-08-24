@@ -1,1 +1,1 @@
-web: python petfinder/manage.py runserver
+web: python petfinder/manage.py runserver 0.0.0.0:80
