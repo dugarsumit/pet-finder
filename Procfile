@@ -1,1 +1,1 @@
-web: gunicorn petfinder.petfinder.wsgi --log-file -
+web: python petfinder/manage.py runserver
