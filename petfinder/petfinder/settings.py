@@ -29,8 +29,9 @@ ALLOWED_HOSTS = ['dugarsumit.pythonanywhere.com','localhost','pet-finder-app2.he
 
 LOGIN_REDIRECT_URL = '/pets/all'
 
-ROOT_PROJ_DIR = '/home/sumit/Documents/repo/pet-finder'
+# ROOT_PROJ_DIR = '/home/sumit/Documents/repo/pet-finder'
 # ROOT_PROJ_DIR = '/home/dugarsumit/pet-finder'
+ROOT_PROJ_DIR = '/app'
 
 PET_PROFILE_IMG_DIR = '/img/pet-profile'
 
