@@ -61,6 +61,9 @@ else:
 PET_PROFILE_IMG_DIR = '/img/pet-profile'
 
 UPLOAD_DIR = ROOT_PROJ_DIR + '/petfinder/static' + PET_PROFILE_IMG_DIR
+if not os.path.exists(UPLOAD_DIR):
+    os.makedirs(UPLOAD_DIR)
+
 
 ALLOWED_EXTENSION = ['jpg', 'jpeg', 'png']
 
