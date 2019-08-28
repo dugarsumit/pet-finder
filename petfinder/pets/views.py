@@ -74,8 +74,11 @@ def upload_files(request):
 def validate_uploaded_file(upload_file):
     extension = upload_file.name.split('.')[-1].lower()
     if extension not in settings.ALLOWED_EXTENSION:
+        print("Invalid Extension {}".format(extension))
         return False
-    if ((upload_file.size / 1024) / 1024) > settings.MAX_UPLOAD_SIZE:
+    size = (upload_file.size / 1024) / 1024
+    if size > settings.MAX_UPLOAD_SIZE:
+        print("File size {} greater than max allowed {}".format(size, settings.MAX_UPLOAD_SIZE))
         return False
     return True
 

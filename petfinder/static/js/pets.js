@@ -364,23 +364,23 @@ $(document).ready(function () {
 
 $('#register-species').click(
     function () {
-    var b = JSON.parse(document.getElementById('breeds').textContent);
-    var curr_species = $('#register-species').val();
-    $('#register-breed').find('option').remove();
-    var breed_select = $('#register-breed');
-    breed_select.append(new Option('Choose',''));
-    if (curr_species == 'Dog') {
-        var dog_breeds = b['dogs'];
-        for (var i = 0; i < dog_breeds.length; i++) {
-            breed_select.append(new Option(dog_breeds[i], dog_breeds[i]));
-        }
-    } else if (curr_species == 'Cat') {
-        var cat_breeds = b['cats'];
-        for (var i = 0; i < cat_breeds.length; i++) {
-            breed_select.append(new Option(cat_breeds[i], cat_breeds[i]));
+        var b = JSON.parse(document.getElementById('breeds').textContent);
+        var curr_species = $('#register-species').val();
+        $('#register-breed').find('option').remove();
+        var breed_select = $('#register-breed');
+        breed_select.append(new Option('Choose', ''));
+        if (curr_species == 'Dog') {
+            var dog_breeds = b['dogs'];
+            for (var i = 0; i < dog_breeds.length; i++) {
+                breed_select.append(new Option(dog_breeds[i], dog_breeds[i]));
+            }
+        } else if (curr_species == 'Cat') {
+            var cat_breeds = b['cats'];
+            for (var i = 0; i < cat_breeds.length; i++) {
+                breed_select.append(new Option(cat_breeds[i], cat_breeds[i]));
+            }
         }
     }
-}
 );
 
 /* Filter button */
@@ -480,27 +480,27 @@ function compute_home_filter_url() {
 function compute_filter_url() {
     var url = "all?";
     var pa = $("#filter-peepalfarm-approved").prop("checked");
-    if(pa){
+    if (pa) {
         url = url + "pa=" + pa + "&";
     }
     var ht = $("#filter-house-trained").prop("checked");
-    if(ht){
+    if (ht) {
         url = url + "ht=" + ht + "&";
     }
     var s = $("#filter-sterilized").prop("checked");
-    if(s){
+    if (s) {
         url = url + "s=" + s + "&";
     }
     var gwk = $("#filter-good-with-kids").prop("checked");
-    if(gwk){
+    if (gwk) {
         url = url + "gwk=" + gwk + "&";
     }
     var gwc = $("#filter-good-with-cats").prop("checked");
-    if(gwc){
+    if (gwc) {
         url = url + "gwc=" + gwc + "&";
     }
     var gwd = $("#filter-good-with-dogs").prop("checked");
-    if(gwd){
+    if (gwd) {
         url = url + "gwd=" + gwd + "&";
     }
     var ab = $("#filter-added-by").val();

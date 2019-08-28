@@ -25,13 +25,38 @@ SECRET_KEY = '!c@f(%twnxw=arck_p-26x6al6lla%xk9sc9m1ql&5l1np))ty'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+PORT = os.environ.get('PORT', None)
+
 ALLOWED_HOSTS = ['dugarsumit.pythonanywhere.com','localhost','pet-finder-app2.herokuapp.com']
 
 LOGIN_REDIRECT_URL = '/pets/all'
 
-# ROOT_PROJ_DIR = '/home/sumit/Documents/repo/pet-finder'
+if PORT:
+    ROOT_PROJ_DIR = '/app'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'd6bagneb2co9kb',
+            'USER': 'lwtzifurghzrlw',
+            'PASSWORD': '462ccdad37b2d354422cb67a39c4d0f31b8e29d41f41bf05f74777b2cffba548',
+            'HOST': 'ec2-54-247-96-169.eu-west-1.compute.amazonaws.com',
+            'PORT': '5432',
+        }
+    }
+else:
+    ROOT_PROJ_DIR = '/home/sumit/Documents/repo/pet-finder'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'mydb',
+            'USER': 'myuser',
+            'PASSWORD': 'warriorclan',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+
 # ROOT_PROJ_DIR = '/home/dugarsumit/pet-finder'
-ROOT_PROJ_DIR = '/app'
 
 PET_PROFILE_IMG_DIR = '/img/pet-profile'
 
@@ -97,28 +122,6 @@ WSGI_APPLICATION = 'petfinder.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'mydb',
-#         'USER': 'myuser',
-#         'PASSWORD': 'warriorclan',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd6bagneb2co9kb',
-        'USER': 'lwtzifurghzrlw',
-        'PASSWORD': '462ccdad37b2d354422cb67a39c4d0f31b8e29d41f41bf05f74777b2cffba548',
-        'HOST': 'ec2-54-247-96-169.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
-    }
-}
 
 # DATABASES = {
 #     'default': {
