@@ -81,7 +81,7 @@ def upload_to_s3(file_path):
     s3_client = boto3.client('s3')
     file_name = file_path.split('/')[-1]
     try:
-        s3_client.upload_file(file_name, S3_BUCKET, file_name.split('/')[-1], ExtraArgs = {'ACL': 'public-read'})
+        s3_client.upload_file(file_path, S3_BUCKET, file_name.split('/')[-1], ExtraArgs = {'ACL': 'public-read'})
     except ClientError as e:
         print(e)
     return 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
