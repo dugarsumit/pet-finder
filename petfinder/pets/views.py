@@ -62,12 +62,11 @@ def submit_adoption_form(request):
 def upload_files(request):
     print('Inside upload method....')
     upload_file = request.FILES['upload_image']
-    print('----------------')
     if validate_uploaded_file(upload_file):
         with open(os.path.join(settings.UPLOAD_DIR, upload_file.name), 'wb+') as destination:
             for chunk in upload_file.chunks():
                 destination.write(chunk)
-        file_path = os.path.join(settings.PET_PROFILE_IMG_DIR, upload_file.name)
+        file_path = os.path.join(settings.UPLOAD_DIR, upload_file.name)
         upload_path = upload_to_s3(file_path)
         pet_id = request.POST['pet_id']
         save_media_in_db(pet_id = pet_id, file_path = upload_path)
