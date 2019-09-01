@@ -2,7 +2,7 @@
 <div class="col-md-4 col-sm-6">
     <div class="portfolio-item shadow p-3 mb-5 bg-white rounded">
         <a class="portfolio-link" data-toggle="modal" href="#detailmodal-{{pet.id}}">
-            <img class="img-fluid" src="{% pet.image %}" alt="">
+            <img class="img-fluid" src="{{pet.image}}" alt="">
             {% if pet.is_adopted and pet.show_badge %}
             <i class="fas fa-award fa-3x badge-image"></i>
             {% endif %}

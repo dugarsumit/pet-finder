@@ -232,7 +232,7 @@
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-md-6 text-center shadow p-3 mb-5 bg-white rounded">
-                                                <img class="img-fluid" src="{% pet.image %}" alt="">
+                                                <img class="img-fluid" src="{{pet.image}}" alt="">
                                                 {% if pet.is_adopted == Yes and pet.show_badge == Yes %}
                                                 <i class="fas fa-award fa-3x detail-badge-image"></i>
                                                 {% endif %}
