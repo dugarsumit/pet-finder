@@ -8,7 +8,11 @@ from django.conf import settings
 import json
 from django.contrib.auth.models import User
 from django.db.models import Q
+import boto3
+from botocore.exceptions import ClientError
 
+S3_BUCKET = os.environ.get('S3_BUCKET')
+s3_client = boto3.client('s3')
 
 # Create your views here.
 
@@ -58,18 +62,29 @@ def submit_adoption_form(request):
 def upload_files(request):
     print('Inside upload method....')
     upload_file = request.FILES['upload_image']
+    print('----------------')
     if validate_uploaded_file(upload_file):
         with open(os.path.join(settings.UPLOAD_DIR, upload_file.name), 'wb+') as destination:
             for chunk in upload_file.chunks():
                 destination.write(chunk)
-        pet_id = request.POST['pet_id']
         file_path = os.path.join(settings.PET_PROFILE_IMG_DIR, upload_file.name)
-        save_media_in_db(pet_id = pet_id, file_path = file_path)
+        upload_path = upload_to_s3(file_path)
+        pet_id = request.POST['pet_id']
+        save_media_in_db(pet_id = pet_id, file_path = upload_path)
     else:
         print('Invalid file', upload_file.name)
         return HttpResponseBadRequest()
     return HttpResponse()
 
+
+def upload_to_s3(file_path):
+    s3_client = boto3.client('s3')
+    file_name = file_path.split('/')[-1]
+    try:
+        s3_client.upload_file(file_name, S3_BUCKET, file_name.split('/')[-1], ExtraArgs = {'ACL': 'public-read'})
+    except ClientError as e:
+        print(e)
+    return 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
 
 def validate_uploaded_file(upload_file):
     extension = upload_file.name.split('.')[-1].lower()
@@ -367,3 +382,7 @@ def get_cat_breeds():
         data = json.load(json_file)
         dog_breeds = data['cats']
     return dog_breeds
+
+
+if __name__ == '__main__':
+    upload_to_s3()

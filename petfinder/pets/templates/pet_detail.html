@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 text-center shadow p-3 mb-5 bg-white rounded">
-                <img class="img-fluid" src = "{% static pet.image %}" alt="">
+                <img class="img-fluid" src = "{% pet.image %}" alt="">
                 {% if pet.is_adopted and pet.show_badge %}
                     <i class="fas fa-award fa-3x badge-image"></i>
                 {% endif %}
